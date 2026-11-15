@@ -36,7 +36,7 @@ jobs:
         run: echo "ref=$(tr -d '[:space:]' < pass-app/core.ref)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: BigToEstDev/kdbx-rust-core
+          repository: BigToEstDev/kdbx-core
           ref: ${{ steps.core.outputs.ref }}
           path: pass-rust-core
           persist-credentials: false
@@ -66,7 +66,7 @@ jobs:
         run: echo "ref=$(tr -d '[:space:]' < pass-app/core.ref)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: BigToEstDev/kdbx-rust-core
+          repository: BigToEstDev/kdbx-core
           ref: ${{ steps.core.outputs.ref }}
           path: pass-rust-core
           persist-credentials: false

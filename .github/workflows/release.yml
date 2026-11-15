@@ -106,7 +106,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: BigToEstDev/kdbx-rust-core
+          repository: BigToEstDev/kdbx-core
           ref: ${{ needs.check.outputs.core }}
           path: pass-rust-core
           persist-credentials: false
@@ -191,7 +191,7 @@ jobs:
           persist-credentials: false
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: BigToEstDev/kdbx-rust-core
+          repository: BigToEstDev/kdbx-core
           ref: ${{ needs.check.outputs.core }}
           path: pass-rust-core
           persist-credentials: false
@@ -311,7 +311,7 @@ jobs:
             echo
             echo "## Build"
             echo
-            echo "- Core: [kdbx-rust-core $CORE](https://github.com/BigToEstDev/kdbx-rust-core/releases/tag/$CORE) - the source of the engine of this build."
+            echo "- Core: [kdbx-core $CORE](https://github.com/BigToEstDev/kdbx-core/releases/tag/$CORE) - the source of the engine of this build."
             echo "- Android APK certificate SHA-256: \`$CERT\` - check it with \`apksigner verify --print-certs\`; a different one means the file is not ours."
             echo "- Every file is in \`SHA256SUMS\` and has a build provenance attestation: \`gh attestation verify <file> -R $REPO\`."
             echo

@@ -53,7 +53,7 @@ dependencies {
 
 tasks.register<JavaExec>("exportAppIcons") {
     group = "distribution"
-    description = "Draws appIcon() into icons/keyvault.ico, .icns and .png - the icons of the installers"
+    description = "Draws appIcon() into icons/kdbx-vault.ico, .icns and .png - the icons of the installers"
     classpath = iconExport.runtimeClasspath
     mainClass.set("ru.kino.dev.desktop.icons.IconExportKt")
     args(layout.projectDirectory.dir("icons").asFile.absolutePath)
@@ -75,7 +75,7 @@ compose.desktop {
         // own runner. No license dialog: the GPL is not to be accepted to use the app
         nativeDistributions {
             targetFormats(TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Dmg)
-            packageName = "KeyVault"
+            packageName = "KDBX Vault"
             // Digits only - the installers take no "-rc.N"; it is in the name of the file, given in CI
             packageVersion = artifact.version.packageVersion
             description = "KeePass (KDBX) password manager"
@@ -88,23 +88,23 @@ compose.desktop {
 
             val icons = layout.projectDirectory.dir("icons")
             windows {
-                iconFile.set(icons.file("keyvault.ico"))
+                iconFile.set(icons.file("kdbx-vault.ico"))
                 // Never to be changed: by it an installer of a new version upgrades the installed app, not sits beside
                 upgradeUuid = "94f00f7a-00b7-4b4d-bdce-211c2300f554"
                 // Installed as an ordinary app of the current user - no administrator rights
                 perUserInstall = true
                 menu = true
-                menuGroup = "KeyVault"
+                menuGroup = "KDBX Vault"
                 shortcut = true
             }
             macOS {
-                iconFile.set(icons.file("keyvault.icns"))
+                iconFile.set(icons.file("kdbx-vault.icns"))
                 // The same as the applicationId of android
-                bundleID = "io.github.bigtoestdev.keyvault"
+                bundleID = "io.github.bigtoestdev.kdbxvault"
             }
             linux {
-                iconFile.set(icons.file("keyvault.png"))
-                packageName = "keyvault"
+                iconFile.set(icons.file("kdbx-vault.png"))
+                packageName = "kdbx-vault"
                 appCategory = "Utility"
                 debMaintainer = "$VENDOR <${providers.gradleProperty("app.contactEmail").get()}>"
             }

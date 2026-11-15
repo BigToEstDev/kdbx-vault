@@ -662,7 +662,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "kdbx-rust-core"
+name = "kdbx-core"
 version = "1.0.0"
 dependencies = [
  "aes",
@@ -773,7 +773,7 @@ name = "pass-api"
 version = "1.0.0"
 dependencies = [
  "base64",
- "kdbx-rust-core",
+ "kdbx-core",
  "log",
  "serde",
  "serde_json",

@@ -17,7 +17,7 @@ import ru.kino.dev.settings.appearance.ThemeMode
 import ru.kino.dev.settings.pres.theme.AppThemeHolder
 import ru.kino.dev.ui.phone.LocalPhoneNumbers
 import ru.kino.dev.ui.theme.AppLocale
-import ru.kino.dev.ui.theme.KeyVaultTheme
+import ru.kino.dev.ui.theme.KdbxVaultTheme
 import ru.kino.dev.ui.theme.LocalAppDisplay
 import ru.kino.dev.ui.theme.ProvideLayoutType
 import ru.kino.dev.vault.lock.AutoLock
@@ -59,7 +59,7 @@ fun App(onDarkTheme: (Boolean) -> Unit = {}) {
             LocalPhoneNumbers provides koinInject<PhoneNumbers>(),
             LocalNavigator provides navigator,
         ) {
-            KeyVaultTheme(darkTheme = darkTheme) {
+            KdbxVaultTheme(darkTheme = darkTheme) {
                 val start by startResolver.start.collectAsStateWithLifecycle()
                 // The layout by the width of the window, for the screens with layouts of their own (pass-docs, Step 94)
                 ProvideLayoutType {

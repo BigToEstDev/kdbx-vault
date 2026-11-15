@@ -2,7 +2,7 @@
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "KeyVault"
+rootProject.name = "kdbx-vault"
 
 pluginManagement {
     includeBuild("build-logic")

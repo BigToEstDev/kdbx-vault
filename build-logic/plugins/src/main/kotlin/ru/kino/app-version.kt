@@ -9,7 +9,7 @@ import org.gradle.api.Project
 /** What `version.json` names: the [name] of the files of the builds and the [version] of the app. */
 class AppArtifact(val name: String, val version: AppVersion) {
 
-    /** The base of the name of a build: `keyvault-1.0.0-rc.1`. */
+    /** The base of the name of a build: `kdbx-vault-1.0.0-rc.1`. */
     val fileName: String get() = "$name-${version.name}"
 }
 

@@ -60,7 +60,7 @@ class AppGraphTest {
         // One module with all of them: verifyAll would check each alone, without what the others give
         module { includes(appModules + coreDataModule + appInfoModule) }.verify(
             extraTypes = listOf(
-                // androidContext() of KeyVaultApp
+                // androidContext() of KdbxVaultApp
                 Context::class,
                 // Made inside the definitions of the lock and the timer of inactivity, not taken from the graph
                 CoroutineScope::class,

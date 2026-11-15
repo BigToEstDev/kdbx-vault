@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.KeyVault" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.KdbxVault" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <!-- The launch theme: the system splash, then Theme.KeyVault once the start route is known -->
-    <style name="Theme.KeyVault.Starting" parent="Theme.SplashScreen">
-        <item name="postSplashScreenTheme">@style/Theme.KeyVault</item>
+    <!-- The launch theme: the system splash, then Theme.KdbxVault once the start route is known -->
+    <style name="Theme.KdbxVault.Starting" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.KdbxVault</item>
     </style>
 </resources>

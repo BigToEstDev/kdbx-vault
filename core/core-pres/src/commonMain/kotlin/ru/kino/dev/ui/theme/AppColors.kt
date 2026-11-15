@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 
 /**
  * The colors of the app that the scheme of Material 3 has no role for - the service colors of `Color.kt`,
- * one set per theme; [KeyVaultTheme] provides the one of its theme.
+ * one set per theme; [KdbxVaultTheme] provides the one of its theme.
  *
  * @param passwordDigit the digits of a secret shown in clear (pass-docs, Step 58)
  * @param passwordSymbol everything of a secret that is neither a letter nor a digit

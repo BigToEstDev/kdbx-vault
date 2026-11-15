@@ -33,7 +33,7 @@ val cargoBuildHost = tasks.register<Exec>("cargoBuildHost") {
     val outDir = nativeResourcesDir.get().dir(hostDir).asFile
     // Locals only below: a task action that touches the script object breaks the configuration cache
     // `[lib] name` of the crate, the same as NATIVE_LIBRARY in core-data
-    val libraryName = System.mapLibraryName("keyvault")
+    val libraryName = System.mapLibraryName("kdbxvault")
     val builtLibrary = targetDir.resolve("release/$libraryName")
     val copiedLibrary = outDir.resolve(libraryName)
 

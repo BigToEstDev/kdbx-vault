@@ -16,8 +16,8 @@ import java.io.File
  * git, jpackage takes them from there. The shield changes - run it again.
  */
 
-/** The base of the names of the icon files: keyvault.ico, keyvault.icns, keyvault.png. */
-private const val FILE_NAME = "keyvault"
+/** The base of the names of the icon files: kdbx-vault.ico, kdbx-vault.icns, kdbx-vault.png. */
+private const val FILE_NAME = "kdbx-vault"
 
 /** The icon of Linux - one picture. */
 private const val LINUX_SIZE = 512

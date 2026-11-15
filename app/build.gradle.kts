@@ -12,7 +12,7 @@ val artifact = appArtifact()
 val signing = releaseSigning()
 
 base {
-    // keyvault-1.0.0-rc.1-debug.apk; the release is named in CI as it is published (pass-docs, Step 123)
+    // kdbx-vault-1.0.0-rc.1-debug.apk; the release is named in CI as it is published (pass-docs, Step 123)
     archivesName.set(artifact.fileName)
 }
 
@@ -20,7 +20,7 @@ android {
     namespace = "ru.kino.dev"
 
     defaultConfig {
-        applicationId = "io.github.bigtoestdev.keyvault"
+        applicationId = "io.github.bigtoestdev.kdbxvault"
         versionCode = artifact.version.code
         versionName = artifact.version.name
 

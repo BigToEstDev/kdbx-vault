@@ -10,6 +10,6 @@ internal expect fun loadPassFfiLibrary()
 
 /**
  * Name of the native library - `[lib] name` of `rust/pass-ffi/Cargo.toml`; the platform adds the rest
- * (`libkeyvault.so`, `keyvault.dll`). The desktop build plugin (`rust-bridge-desktop`) names it again.
+ * (`libkdbxvault.so`, `kdbxvault.dll`). The desktop build plugin (`rust-bridge-desktop`) names it again.
  */
-internal const val NATIVE_LIBRARY = "keyvault"
+internal const val NATIVE_LIBRARY = "kdbxvault"

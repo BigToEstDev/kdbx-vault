@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to KeyVault are documented in this file - one version for Android and desktop
+All notable changes to KDBX Vault are documented in this file - one version for Android and desktop
 (`version.json`).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
@@ -8,9 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-## [1.0.0-rc.1] - 2026-11-14
+## [1.0.0-rc.2] - 2026-11-15
 
-The first release candidate, with the core [1.0.0](https://github.com/BigToEstDev/kdbx-rust-core/releases/tag/v1.0.0).
+The first release candidate under the name KDBX Vault, with the core
+[1.0.1](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.1). It replaces `1.0.0-rc.1` and does not update
+it: the app has a new id (`io.github.bigtoestdev.kdbxvault`), so `1.0.0-rc.1` is to be removed and this one installed.
+
+### Changed
+
+- The name of the app - KDBX Vault (was KeyVault); the repository - `kdbx-vault`, the core - `kdbx-core`.
 
 ### Added
 
@@ -22,5 +28,9 @@ The first release candidate, with the core [1.0.0](https://github.com/BigToEstDe
   share a copy.
 - The screen "About": the version of the app and of the core, the license, contacts and the source code.
 
-[Unreleased]: https://github.com/BigToEstDev/keyvault/compare/v1.0.0-rc.1...HEAD
-[1.0.0-rc.1]: https://github.com/BigToEstDev/keyvault/releases/tag/v1.0.0-rc.1
+## [1.0.0-rc.1] - 2026-11-14 [YANKED]
+
+Withdrawn: published under the old name KeyVault. Replaced by `1.0.0-rc.2`.
+
+[Unreleased]: https://github.com/BigToEstDev/kdbx-vault/compare/v1.0.0-rc.2...HEAD
+[1.0.0-rc.2]: https://github.com/BigToEstDev/kdbx-vault/releases/tag/v1.0.0-rc.2

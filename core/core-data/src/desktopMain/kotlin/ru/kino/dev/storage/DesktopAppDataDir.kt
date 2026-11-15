@@ -3,7 +3,7 @@ package ru.kino.dev.storage
 import java.io.File
 
 /**
- * `KeyVault` in the directory each system keeps the data of an app of the user in: AppData, Application Support,
+ * `kdbxvault` in the directory each system keeps the data of an app of the user in: AppData, Application Support,
  * XDG. Only the settings live here, never a database (pass-docs, Step 86).
  */
 internal class DesktopAppDataDir : AppDataDir {
@@ -20,6 +20,6 @@ internal class DesktopAppDataDir : AppDataDir {
     }
 
     private companion object {
-        const val APP_DIR = "KeyVault"
+        const val APP_DIR = "kdbxvault"
     }
 }

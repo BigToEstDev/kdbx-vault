@@ -1,4 +1,4 @@
-# The release of KeyVault (pass-docs, docs/dev/release-setup.md).
+# The release of KDBX Vault (pass-docs, docs/dev/release-setup.md).
 #
 # A tag v<version> builds every platform and makes a DRAFT release in this repository - the owner checks it and
 # publishes it. The tag must equal version.json, and CHANGELOG.md must have the section of the version. A release
@@ -158,10 +158,10 @@ jobs:
           mkdir dist
           apk=$(ls pass-app/app/build/outputs/apk/release/*.apk)
           case "$apk" in
-            *-unsigned.apk) cp "$apk" "dist/keyvault-$VERSION-unsigned.apk" ;;
-            *) cp "$apk" "dist/keyvault-$VERSION.apk" ;;
+            *-unsigned.apk) cp "$apk" "dist/kdbx-vault-$VERSION-unsigned.apk" ;;
+            *) cp "$apk" "dist/kdbx-vault-$VERSION.apk" ;;
           esac
-          cp pass-app/app/build/outputs/mapping/release/mapping.txt "dist/keyvault-$VERSION-android-mapping.txt"
+          cp pass-app/app/build/outputs/mapping/release/mapping.txt "dist/kdbx-vault-$VERSION-android-mapping.txt"
           ls -l dist
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -226,7 +226,7 @@ jobs:
             echo "::error::Expected one .$FORMAT, found: ${files[*]}"
             exit 1
           fi
-          cp "${files[0]}" "dist/keyvault-$VERSION-$SUFFIX"
+          cp "${files[0]}" "dist/kdbx-vault-$VERSION-$SUFFIX"
           ls -l dist
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -261,7 +261,7 @@ jobs:
         id: cert
         run: |
           apksigner=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
-          digest=$("$apksigner" verify --print-certs "dist/keyvault-$VERSION.apk" | grep -m1 'certificate SHA-256 digest' | awk '{print $NF}')
+          digest=$("$apksigner" verify --print-certs "dist/kdbx-vault-$VERSION.apk" | grep -m1 'certificate SHA-256 digest' | awk '{print $NF}')
           if [ -z "$digest" ]; then
             echo "::error::The APK is not signed"
             exit 1
@@ -307,7 +307,9 @@ jobs:
           CERT: ${{ steps.cert.outputs.sha256 }}
         run: |
           {
-            awk -v v="$VERSION" '$0 ~ "^## \\[" v "\\]" {f=1; next} /^## \[/ {f=0} /^\[[^]]+\]: / {f=0} f' CHANGELOG.md
+            # The section of the version, its heading compared as text: in a regex the brackets of the version would
+            # be a bracket expression and match every heading
+            awk -v h="## [$VERSION]" 'index($0, h) == 1 {f=1; next} /^## \[/ {f=0} /^\[[^]]+\]: / {f=0} f' CHANGELOG.md
             echo
             echo "## Build"
             echo
@@ -318,8 +320,8 @@ jobs:
             echo "## Installing"
             echo
             echo "- Windows: the installer is not signed yet - SmartScreen may warn: More info → Run anyway."
-            echo "- macOS (Apple Silicon): the app is not signed yet. Right-click KeyVault in Applications → Open → Open; on macOS 15 and later: System Settings → Privacy & Security → Open Anyway."
-            echo "- Linux: \`sudo apt install ./keyvault-$VERSION-linux-amd64.deb\`."
+            echo "- macOS (Apple Silicon): the app is not signed yet. Right-click KDBX Vault in Applications → Open → Open; on macOS 15 and later: System Settings → Privacy & Security → Open Anyway."
+            echo "- Linux: \`sudo apt install ./kdbx-vault-$VERSION-linux-amd64.deb\`."
           } > notes.md
           cat notes.md
       # A draft is refreshed; a published release is left alone and the run fails
@@ -332,9 +334,9 @@ jobs:
               echo "::error::The release $TAG is published already - nothing is changed"
               exit 1
             fi
-            gh release edit "$TAG" -R "$REPO" --title "KeyVault $VERSION" --notes-file notes.md "${prerelease[@]}"
+            gh release edit "$TAG" -R "$REPO" --title "KDBX Vault $VERSION" --notes-file notes.md "${prerelease[@]}"
             gh release upload "$TAG" -R "$REPO" --clobber dist/*
           else
-            gh release create "$TAG" -R "$REPO" --draft --verify-tag --title "KeyVault $VERSION" \
+            gh release create "$TAG" -R "$REPO" --draft --verify-tag --title "KDBX Vault $VERSION" \
               --notes-file notes.md "${prerelease[@]}" dist/*
           fi

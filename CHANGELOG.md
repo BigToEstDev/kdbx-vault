@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [1.0.0-rc.2] - 2026-11-15
 
 The first release candidate under the name KDBX Vault, with the core
-[1.0.0](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.0). It replaces `1.0.0-rc.1` and does not update
+[1.0.1](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.1). It replaces `1.0.0-rc.1` and does not update
 it: the app has a new id (`io.github.bigtoestdev.kdbxvault`), so `1.0.0-rc.1` is to be removed and this one installed.
 
 ### Changed

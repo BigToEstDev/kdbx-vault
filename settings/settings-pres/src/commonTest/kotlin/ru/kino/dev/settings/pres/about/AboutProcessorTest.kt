@@ -20,6 +20,7 @@ class AboutProcessorTest {
         version = "1.2.3",
         buildType = BuildType.Release,
         repoUrl = "https://github.com/owner/app/",
+        coreRepoUrl = "https://github.com/owner/core",
         contactEmail = "mail@example.com",
         siteUrl = "https://owner.example.io/app/",
     )
@@ -34,11 +35,13 @@ class AboutProcessorTest {
                 buildType = BuildType.Release,
                 email = "mail@example.com",
                 repoUrl = "https://github.com/owner/app/",
+                coreRepoUrl = "https://github.com/owner/core",
                 siteUrl = "https://owner.example.io/app/",
             ),
             state,
         )
         assertEquals("github.com/owner/app", state.repoShown)
+        assertEquals("github.com/owner/core", state.coreRepoShown)
         assertEquals("owner.example.io/app", state.siteShown)
     }
 
@@ -75,6 +78,15 @@ class AboutProcessorTest {
             containerHost.onOpenSourceCode()
 
             expectSideEffect(AboutSideEffect.OpenLink("https://github.com/owner/app/"))
+        }
+    }
+
+    @Test
+    fun `the source code of the core opens its repository`() = runTest {
+        processor(recordNavigation().first).testWithInternalState(this) {
+            containerHost.onOpenCoreSourceCode()
+
+            expectSideEffect(AboutSideEffect.OpenLink("https://github.com/owner/core"))
         }
     }
 

@@ -378,7 +378,8 @@
     <string name="about_report_issue">Сообщить об ошибке</string>
     <string name="about_report_issue_text">Опишите её в Issues на GitHub</string>
     <string name="about_open_source">Открытый код</string>
-    <string name="about_source_code">Исходный код</string>
+    <string name="about_source_app">Приложение</string>
+    <string name="about_source_core">Ядро</string>
     <string name="settings_theme">Тема</string>
     <string name="settings_theme_mode">Тема приложения</string>
     <string name="settings_theme_system">Системная</string>

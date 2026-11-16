@@ -26,4 +26,7 @@ interface AboutActions {
 
     /** The source code - the repository of the app, in the browser. */
     fun onOpenSourceCode()
+
+    /** The source code of the core - its repository, in the browser (pass-docs, Step 129). */
+    fun onOpenCoreSourceCode()
 }

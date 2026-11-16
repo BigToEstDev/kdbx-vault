@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LocalCafe
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -207,16 +208,24 @@ internal fun AboutActions.ContactsCard(state: AboutState) {
     }
 }
 
-/** The repository of the app - in the browser. */
+/** The repositories of the app and of the core - in the browser: GPL-3.0 names both (pass-docs, Step 129). */
 @Composable
 internal fun AboutActions.SourceCodeCard(state: AboutState) {
     Card(modifier = Modifier.fillMaxWidth()) {
         AboutRow(
             icon = Icons.Filled.Code,
-            title = stringResource(Res.string.about_source_code),
+            title = stringResource(Res.string.about_source_app),
             text = state.repoShown,
             action = Icons.AutoMirrored.Filled.OpenInNew,
             onClick = ::onOpenSourceCode,
+        )
+        HorizontalDivider()
+        AboutRow(
+            icon = Icons.Filled.Memory,
+            title = stringResource(Res.string.about_source_core),
+            text = state.coreRepoShown,
+            action = Icons.AutoMirrored.Filled.OpenInNew,
+            onClick = ::onOpenCoreSourceCode,
         )
     }
 }

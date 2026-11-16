@@ -69,6 +69,7 @@ compose.desktop {
             "-Dapp.version=${artifact.version.name}",
             "-Dapp.repoUrl=${providers.gradleProperty("app.repoUrl").get()}",
             "-Dapp.contactEmail=${providers.gradleProperty("app.contactEmail").get()}",
+            "-Dapp.coreRepoUrl=${providers.gradleProperty("app.coreRepoUrl").get()}",
             "-Dapp.siteUrl=${providers.gradleProperty("app.siteUrl").get()}",
         )
 

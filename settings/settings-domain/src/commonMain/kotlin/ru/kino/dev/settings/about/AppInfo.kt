@@ -8,6 +8,7 @@ package ru.kino.dev.settings.about
  * @param version the version of the build, as the person sees it
  * @param buildType a debug build or one for a release
  * @param repoUrl the public repository of the app - not of the core
+ * @param coreRepoUrl the public repository of the core
  * @param contactEmail where to write
  * @param siteUrl the site of the app
  */
@@ -15,6 +16,7 @@ data class AppInfo(
     val version: String,
     val buildType: BuildType,
     val repoUrl: String,
+    val coreRepoUrl: String,
     val contactEmail: String,
     val siteUrl: String,
 ) {

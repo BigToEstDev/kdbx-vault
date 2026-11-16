@@ -66,6 +66,10 @@ class AboutProcessor(
         intent { postSideEffect(AboutSideEffect.OpenLink(info.repoUrl)) }
     }
 
+    override fun onOpenCoreSourceCode() {
+        intent { postSideEffect(AboutSideEffect.OpenLink(info.coreRepoUrl)) }
+    }
+
     private companion object {
         const val TAG = "AboutProcessor"
     }

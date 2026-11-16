@@ -29,4 +29,7 @@ interface AboutActions {
 
     /** The source code of the core - its repository, in the browser (pass-docs, Step 129). */
     fun onOpenCoreSourceCode()
+
+    /** The licenses of the libraries - the file of the release, in the browser (pass-docs, Step 129). */
+    fun onOpenLicenses()
 }

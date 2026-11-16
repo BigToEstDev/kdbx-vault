@@ -2,6 +2,7 @@ plugins {
     id("android-compose-app")
     // Builds rust/pass-ffi with cargo-ndk and puts the .so into src/main/jniLibs
     id("rust-bridge-android")
+    id("third-party-licenses")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
@@ -103,4 +104,10 @@ dependencies {
     testImplementation(libs.junit)
     // The graph checked as the compiler of Hilt did: every definition has what it asks for (pass-docs, Step 84)
     testImplementation(libs.koin.test)
+}
+
+// The libraries of the release build only - the list attached to a release (pass-docs, Step 129)
+aboutLibraries {
+    collect { filterVariants.add("release") }
+    export { variant = "release" }
 }

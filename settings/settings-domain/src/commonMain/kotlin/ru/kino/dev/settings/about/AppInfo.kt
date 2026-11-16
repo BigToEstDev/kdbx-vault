@@ -29,6 +29,13 @@ data class AppInfo(
 
     /** "Support the project" - a page of the site (pass-docs, Step 129). */
     val supportUrl: String = "${siteUrl.trimEnd('/')}/donate"
+
+    /**
+     * The libraries of the app and their licenses - the file of the release of this version (pass-docs, Step 129); its
+     * name is given by `release.yml`. A debug build has no release of its own - the link leads nowhere.
+     */
+    val licensesUrl: String =
+        "${repoUrl.trimEnd('/')}/releases/download/v$version/kdbx-vault-$version-THIRD_PARTY_LICENSES.txt"
 }
 
 /** The type of the build. */

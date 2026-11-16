@@ -70,6 +70,10 @@ class AboutProcessor(
         intent { postSideEffect(AboutSideEffect.OpenLink(info.coreRepoUrl)) }
     }
 
+    override fun onOpenLicenses() {
+        intent { postSideEffect(AboutSideEffect.OpenLink(info.licensesUrl)) }
+    }
+
     private companion object {
         const val TAG = "AboutProcessor"
     }

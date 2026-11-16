@@ -91,6 +91,19 @@ class AboutProcessorTest {
     }
 
     @Test
+    fun `the licenses of the libraries open the file of the release of the version`() = runTest {
+        processor(recordNavigation().first).testWithInternalState(this) {
+            containerHost.onOpenLicenses()
+
+            expectSideEffect(
+                AboutSideEffect.OpenLink(
+                    "https://github.com/owner/app/releases/download/v1.2.3/kdbx-vault-1.2.3-THIRD_PARTY_LICENSES.txt",
+                ),
+            )
+        }
+    }
+
+    @Test
     fun `the site opens`() = runTest {
         processor(recordNavigation().first).testWithInternalState(this) {
             containerHost.onOpenSite()

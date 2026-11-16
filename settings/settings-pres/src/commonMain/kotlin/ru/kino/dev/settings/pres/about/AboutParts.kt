@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LocalCafe
 import androidx.compose.material.icons.filled.Memory
@@ -208,7 +209,10 @@ internal fun AboutActions.ContactsCard(state: AboutState) {
     }
 }
 
-/** The repositories of the app and of the core - in the browser: GPL-3.0 names both (pass-docs, Step 129). */
+/**
+ * The repositories of the app and of the core - GPL-3.0 names both; the licenses of the libraries - the file of the
+ * release (pass-docs, Step 129). All in the browser.
+ */
 @Composable
 internal fun AboutActions.SourceCodeCard(state: AboutState) {
     Card(modifier = Modifier.fillMaxWidth()) {
@@ -226,6 +230,13 @@ internal fun AboutActions.SourceCodeCard(state: AboutState) {
             text = state.coreRepoShown,
             action = Icons.AutoMirrored.Filled.OpenInNew,
             onClick = ::onOpenCoreSourceCode,
+        )
+        HorizontalDivider()
+        AboutRow(
+            icon = Icons.Filled.Gavel,
+            title = stringResource(Res.string.about_licenses),
+            action = Icons.AutoMirrored.Filled.OpenInNew,
+            onClick = ::onOpenLicenses,
         )
     }
 }

@@ -7,6 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     // Builds rust/pass-ffi for the host and puts the library into the app resources
     id("rust-bridge-desktop")
+    id("third-party-licenses")
 }
 
 /** The name and the version of the app - version.json at the root, one for android and the desktop (Step 123). */

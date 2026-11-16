@@ -151,7 +151,9 @@ jobs:
           # Not a secret: as a secret its value would be masked as *** everywhere in the logs, file names included
           KEYVAULT_SIGNING_KEY_ALIAS: keyvault
           KEYVAULT_SIGNING_KEY_PASSWORD: ${{ secrets.KEYVAULT_SIGNING_KEY_PASSWORD }}
-        run: ./gradlew :app:assembleRelease
+        # The licenses of the libraries in the same run: a run of its own would see the key file of the job without its
+        # passwords and fail (release-signing.kt)
+        run: ./gradlew :app:assembleRelease thirdPartyLicenses
       - name: Files of the release
         run: |
           rm -f "$RUNNER_TEMP/keyvault-release.jks"
@@ -166,7 +168,6 @@ jobs:
       # screen "About" leads to it. A license not allowed fails here (third-party-licenses, rust/pass-ffi/about.toml)
       - name: Licenses of the libraries
         run: |
-          (cd pass-app && ./gradlew thirdPartyLicenses)
           {
             cat pass-app/build/thirdPartyLicenses/libraries.txt
             echo

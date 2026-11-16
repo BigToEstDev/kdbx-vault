@@ -16,7 +16,9 @@ val appInfoModule = module {
             version = property(VERSION) + if (buildType == BuildType.Debug) DEBUG_SUFFIX else "",
             buildType = buildType,
             repoUrl = property(REPO_URL),
+            coreRepoUrl = property(CORE_REPO_URL),
             contactEmail = property(CONTACT_EMAIL),
+            siteUrl = property(SITE_URL),
         )
     }
 }
@@ -27,7 +29,9 @@ private fun property(name: String): String =
 
 private const val VERSION = "app.version"
 private const val REPO_URL = "app.repoUrl"
+private const val CORE_REPO_URL = "app.coreRepoUrl"
 private const val CONTACT_EMAIL = "app.contactEmail"
+private const val SITE_URL = "app.siteUrl"
 
 /** What the version of a debug build ends with - as `versionNameSuffix` of android. */
 private const val DEBUG_SUFFIX = "-debug"

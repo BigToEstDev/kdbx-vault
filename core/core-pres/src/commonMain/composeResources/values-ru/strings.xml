@@ -375,11 +375,12 @@
     <string name="about_contacts">Связь</string>
     <string name="about_email">Почта</string>
     <string name="about_site">Сайт</string>
-    <string name="about_site_soon">Скоро</string>
     <string name="about_report_issue">Сообщить об ошибке</string>
     <string name="about_report_issue_text">Опишите её в Issues на GitHub</string>
     <string name="about_open_source">Открытый код</string>
-    <string name="about_source_code">Исходный код</string>
+    <string name="about_source_app">Приложение</string>
+    <string name="about_source_core">Ядро</string>
+    <string name="about_licenses">Лицензии библиотек</string>
     <string name="settings_theme">Тема</string>
     <string name="settings_theme_mode">Тема приложения</string>
     <string name="settings_theme_system">Системная</string>

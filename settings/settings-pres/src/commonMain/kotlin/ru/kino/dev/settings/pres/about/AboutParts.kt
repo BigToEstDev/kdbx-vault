@@ -18,8 +18,10 @@ import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.LocalCafe
+import androidx.compose.material.icons.filled.Memory
 import androidx.compose.material.icons.filled.Policy
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -192,7 +194,7 @@ internal fun AboutActions.ContactsCard(state: AboutState) {
         AboutRow(
             icon = Icons.Filled.Language,
             title = stringResource(Res.string.about_site),
-            text = stringResource(Res.string.about_site_soon),
+            text = state.siteShown,
             action = Icons.AutoMirrored.Filled.OpenInNew,
             onClick = ::onOpenSite,
         )
@@ -207,16 +209,34 @@ internal fun AboutActions.ContactsCard(state: AboutState) {
     }
 }
 
-/** The repository of the app - in the browser. */
+/**
+ * The repositories of the app and of the core - GPL-3.0 names both; the licenses of the libraries - the file of the
+ * release (pass-docs, Step 129). All in the browser.
+ */
 @Composable
 internal fun AboutActions.SourceCodeCard(state: AboutState) {
     Card(modifier = Modifier.fillMaxWidth()) {
         AboutRow(
             icon = Icons.Filled.Code,
-            title = stringResource(Res.string.about_source_code),
+            title = stringResource(Res.string.about_source_app),
             text = state.repoShown,
             action = Icons.AutoMirrored.Filled.OpenInNew,
             onClick = ::onOpenSourceCode,
+        )
+        HorizontalDivider()
+        AboutRow(
+            icon = Icons.Filled.Memory,
+            title = stringResource(Res.string.about_source_core),
+            text = state.coreRepoShown,
+            action = Icons.AutoMirrored.Filled.OpenInNew,
+            onClick = ::onOpenCoreSourceCode,
+        )
+        HorizontalDivider()
+        AboutRow(
+            icon = Icons.Filled.Gavel,
+            title = stringResource(Res.string.about_licenses),
+            action = Icons.AutoMirrored.Filled.OpenInNew,
+            onClick = ::onOpenLicenses,
         )
     }
 }

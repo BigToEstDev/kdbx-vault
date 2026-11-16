@@ -10,4 +10,5 @@ dependencies {
     implementation(libs.android.gradle.api)
     implementation(libs.compose.gradle.plugin)
     implementation(libs.kotlin.serialization.gradle.plugin)
+    implementation(libs.aboutlibraries.gradle.plugin)
 }

@@ -7,6 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     // Builds rust/pass-ffi for the host and puts the library into the app resources
     id("rust-bridge-desktop")
+    id("third-party-licenses")
 }
 
 /** The name and the version of the app - version.json at the root, one for android and the desktop (Step 123). */
@@ -69,6 +70,8 @@ compose.desktop {
             "-Dapp.version=${artifact.version.name}",
             "-Dapp.repoUrl=${providers.gradleProperty("app.repoUrl").get()}",
             "-Dapp.contactEmail=${providers.gradleProperty("app.contactEmail").get()}",
+            "-Dapp.coreRepoUrl=${providers.gradleProperty("app.coreRepoUrl").get()}",
+            "-Dapp.siteUrl=${providers.gradleProperty("app.siteUrl").get()}",
         )
 
         // The installers (pass-docs, Step 124): jpackage builds only those of the OS it runs on - CI builds each on its

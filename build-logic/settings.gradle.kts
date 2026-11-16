@@ -10,7 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-//        gradlePluginPortal()
+        // The Gradle plugin of AboutLibraries is published to the portal only (pass-docs, Step 129)
+        gradlePluginPortal {
+            content { includeGroup("com.mikepenz.aboutlibraries.plugin") }
+        }
     }
 
     versionCatalogs {

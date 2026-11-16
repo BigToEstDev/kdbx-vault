@@ -122,7 +122,7 @@ jobs:
         run: rustup toolchain install
       - uses: taiki-e/install-action@cfdb7ed4ccc7c7dce37759eae89dc5674b469b39 # v2.90.3
         with:
-          tool: cargo-ndk@4.1.2
+          tool: cargo-ndk@4.1.2,cargo-about@0.9.3
       - name: Android NDK
         run: |
           ndk=$(grep -oP 'val rustNdkVersion = "\K[^"]+' pass-app/build-logic/plugins/src/main/kotlin/ru/kino/rust-bridge-android.gradle.kts)
@@ -162,6 +162,16 @@ jobs:
             *) cp "$apk" "dist/kdbx-vault-$VERSION.apk" ;;
           esac
           cp pass-app/app/build/outputs/mapping/release/mapping.txt "dist/kdbx-vault-$VERSION-android-mapping.txt"
+      # The libraries (android, desktop) and the crates of the bridge with the texts of their licenses - one file, the
+      # screen "About" leads to it. A license not allowed fails here (third-party-licenses, rust/pass-ffi/about.toml)
+      - name: Licenses of the libraries
+        run: |
+          (cd pass-app && ./gradlew thirdPartyLicenses)
+          {
+            cat pass-app/build/thirdPartyLicenses/libraries.txt
+            echo
+            (cd pass-app/rust/pass-ffi && cargo about generate --locked --fail about.hbs)
+          } > "dist/kdbx-vault-$VERSION-THIRD_PARTY_LICENSES.txt"
           ls -l dist
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -316,6 +326,7 @@ jobs:
             echo "- Core: [kdbx-core $CORE](https://github.com/BigToEstDev/kdbx-core/releases/tag/$CORE) - the source of the engine of this build."
             echo "- Android APK certificate SHA-256: \`$CERT\` - check it with \`apksigner verify --print-certs\`; a different one means the file is not ours."
             echo "- Every file is in \`SHA256SUMS\` and has a build provenance attestation: \`gh attestation verify <file> -R $REPO\`."
+            echo "- The libraries of the app and their licenses: \`kdbx-vault-$VERSION-THIRD_PARTY_LICENSES.txt\`."
             echo
             echo "## Installing"
             echo

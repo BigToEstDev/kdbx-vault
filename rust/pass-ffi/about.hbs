@@ -1,0 +1,13 @@
+KDBX Vault - the crates of the native bridge (Rust) and their licenses
+================================================================================
+{{#each crates}}
+{{package.name}} {{package.version}} - {{license}}{{#if package.repository}} - {{package.repository}}{{/if}}
+{{/each}}
+{{#each licenses}}
+
+================================================================================
+{{id}} - {{name}}
+Used by: {{#each used_by}}{{crate.name}} {{crate.version}}{{#unless @last}}, {{/unless}}{{/each}}
+================================================================================
+{{{text}}}
+{{/each}}

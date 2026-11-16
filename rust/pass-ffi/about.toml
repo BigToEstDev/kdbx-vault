@@ -1,0 +1,35 @@
+# The crates the native bridge links and their licenses - `cargo about generate`, for the text attached to a release
+# (pass-docs, Step 129). A license not listed fails the run: the app is GPL-3.0, a crate under a license that does not
+# go with it must be seen before a release.
+accepted = [
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "MIT",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    "CC0-1.0",
+    "MPL-2.0",
+    # The core and the bridge - our own
+    "GPL-3.0-only",
+]
+
+# The platforms of the release - android and the desktop
+targets = [
+    "aarch64-linux-android",
+    "armv7-linux-androideabi",
+    "x86_64-linux-android",
+    "x86_64-pc-windows-msvc",
+    "aarch64-apple-darwin",
+    "x86_64-unknown-linux-gnu",
+]
+
+ignore-build-dependencies = true
+ignore-dev-dependencies = true
+
+# The bridge itself is not a library of others
+[private]
+ignore = true

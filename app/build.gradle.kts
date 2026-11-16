@@ -2,6 +2,7 @@ plugins {
     id("android-compose-app")
     // Builds rust/pass-ffi with cargo-ndk and puts the .so into src/main/jniLibs
     id("rust-bridge-android")
+    id("third-party-licenses")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
@@ -29,6 +30,8 @@ android {
         // What the app tells of itself on the screen "About" - gradle.properties, one place for both platforms (Step 122)
         buildConfigField("String", "REPO_URL", "\"${providers.gradleProperty("app.repoUrl").get()}\"")
         buildConfigField("String", "CONTACT_EMAIL", "\"${providers.gradleProperty("app.contactEmail").get()}\"")
+        buildConfigField("String", "CORE_REPO_URL", "\"${providers.gradleProperty("app.coreRepoUrl").get()}\"")
+        buildConfigField("String", "SITE_URL", "\"${providers.gradleProperty("app.siteUrl").get()}\"")
     }
 
     // The language is chosen in the app, not only by the system: every language goes into the base, or a
@@ -101,4 +104,10 @@ dependencies {
     testImplementation(libs.junit)
     // The graph checked as the compiler of Hilt did: every definition has what it asks for (pass-docs, Step 84)
     testImplementation(libs.koin.test)
+}
+
+// The libraries of the release build only - the list attached to a release (pass-docs, Step 129)
+aboutLibraries {
+    collect { filterVariants.add("release") }
+    export { variant = "release" }
 }

@@ -1,5 +1,7 @@
 package ru.kino.dev.log
 
+import org.koin.core.scope.Scope
+
 /** [ErrorLog] into the error stream of the process - what a console or the log of the launcher shows. */
 internal class DesktopErrorLog : ErrorLog {
 
@@ -9,4 +11,4 @@ internal class DesktopErrorLog : ErrorLog {
     }
 }
 
-internal actual fun platformErrorLog(): ErrorLog = DesktopErrorLog()
+internal actual fun Scope.platformErrorLog(): ErrorLog = DesktopErrorLog()

@@ -9,13 +9,13 @@ interface AboutActions {
     /** "Back" in the top bar. */
     fun onBack()
 
-    /** "Support the project": no page to lead to yet - nothing happens (pass-docs, Step 122). */
+    /** "Support the project" - its page on the site, in the browser (pass-docs, Step 129). */
     fun onSupport()
 
-    /** The privacy policy: its page on the site is not made yet - nothing happens (pass-docs, Step 122). */
+    /** The privacy policy - its page on the site, in the browser (pass-docs, Step 129). */
     fun onOpenPrivacyPolicy()
 
-    /** The site: not published yet - nothing happens (pass-docs, Step 122). */
+    /** The site - in the browser. */
     fun onOpenSite()
 
     /** The address to write to - copied. */

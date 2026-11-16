@@ -2,7 +2,6 @@ package ru.kino.dev.settings.pres.about
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.runTest
 import org.orbitmvi.orbit.test.testWithInternalState
@@ -22,14 +21,25 @@ class AboutProcessorTest {
         buildType = BuildType.Release,
         repoUrl = "https://github.com/owner/app/",
         contactEmail = "mail@example.com",
+        siteUrl = "https://owner.example.io/app/",
     )
 
     @Test
     fun `what the app tells of itself is shown at once`() = runTest {
         val state = processor(recordNavigation().first).container.stateFlow.value
 
-        assertEquals(AboutState("1.2.3", BuildType.Release, "mail@example.com", "https://github.com/owner/app/"), state)
+        assertEquals(
+            AboutState(
+                version = "1.2.3",
+                buildType = BuildType.Release,
+                email = "mail@example.com",
+                repoUrl = "https://github.com/owner/app/",
+                siteUrl = "https://owner.example.io/app/",
+            ),
+            state,
+        )
         assertEquals("github.com/owner/app", state.repoShown)
+        assertEquals("owner.example.io/app", state.siteShown)
     }
 
     @Test
@@ -69,19 +79,30 @@ class AboutProcessorTest {
     }
 
     @Test
-    fun `what has no page yet leads nowhere`() = runTest {
-        val (navigator, events) = recordNavigation()
+    fun `the site opens`() = runTest {
+        processor(recordNavigation().first).testWithInternalState(this) {
+            containerHost.onOpenSite()
 
-        // No side effect, no navigation: the test fails on an effect left unconsumed
-        processor(navigator).testWithInternalState(this) {
-            containerHost.runToEnd {
-                onSupport()
-                onOpenPrivacyPolicy()
-                onOpenSite()
-            }
+            expectSideEffect(AboutSideEffect.OpenLink("https://owner.example.io/app/"))
         }
+    }
 
-        assertTrue(events.isEmpty())
+    @Test
+    fun `the privacy policy opens its page of the site`() = runTest {
+        processor(recordNavigation().first).testWithInternalState(this) {
+            containerHost.onOpenPrivacyPolicy()
+
+            expectSideEffect(AboutSideEffect.OpenLink("https://owner.example.io/app/privacy"))
+        }
+    }
+
+    @Test
+    fun `the support opens its page of the site`() = runTest {
+        processor(recordNavigation().first).testWithInternalState(this) {
+            containerHost.onSupport()
+
+            expectSideEffect(AboutSideEffect.OpenLink("https://owner.example.io/app/donate"))
+        }
     }
 
     @Test

@@ -9,16 +9,24 @@ package ru.kino.dev.settings.about
  * @param buildType a debug build or one for a release
  * @param repoUrl the public repository of the app - not of the core
  * @param contactEmail where to write
+ * @param siteUrl the site of the app
  */
 data class AppInfo(
     val version: String,
     val buildType: BuildType,
     val repoUrl: String,
     val contactEmail: String,
+    val siteUrl: String,
 ) {
 
     /** Where bugs are reported - the issues of the repository of the app. */
     val issuesUrl: String = "${repoUrl.trimEnd('/')}/issues"
+
+    /** The privacy policy - a page of the site (pass-docs, Step 129). */
+    val privacyPolicyUrl: String = "${siteUrl.trimEnd('/')}/privacy"
+
+    /** "Support the project" - a page of the site (pass-docs, Step 129). */
+    val supportUrl: String = "${siteUrl.trimEnd('/')}/donate"
 }
 
 /** The type of the build. */

@@ -42,14 +42,17 @@ class AboutProcessor(
         intent { navigator.navigate(MviNavEvent.NavigateBack) }
     }
 
-    // No page of donations yet: the button is there, it leads nowhere (pass-docs, Step 122)
-    override fun onSupport() = Unit
+    override fun onSupport() {
+        intent { postSideEffect(AboutSideEffect.OpenLink(info.supportUrl)) }
+    }
 
-    // No page of the policy on the site yet (pass-docs, Step 122)
-    override fun onOpenPrivacyPolicy() = Unit
+    override fun onOpenPrivacyPolicy() {
+        intent { postSideEffect(AboutSideEffect.OpenLink(info.privacyPolicyUrl)) }
+    }
 
-    // The site is not published yet (pass-docs, Step 122)
-    override fun onOpenSite() = Unit
+    override fun onOpenSite() {
+        intent { postSideEffect(AboutSideEffect.OpenLink(info.siteUrl)) }
+    }
 
     override fun onCopyEmail() {
         intent { postSideEffect(AboutSideEffect.CopyEmail(info.contactEmail)) }

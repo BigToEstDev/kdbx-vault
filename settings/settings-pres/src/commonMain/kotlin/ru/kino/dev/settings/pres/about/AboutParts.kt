@@ -192,7 +192,7 @@ internal fun AboutActions.ContactsCard(state: AboutState) {
         AboutRow(
             icon = Icons.Filled.Language,
             title = stringResource(Res.string.about_site),
-            text = stringResource(Res.string.about_site_soon),
+            text = state.siteShown,
             action = Icons.AutoMirrored.Filled.OpenInNew,
             onClick = ::onOpenSite,
         )

@@ -13,6 +13,7 @@ val appInfoModule = module {
             buildType = if (BuildConfig.DEBUG) BuildType.Debug else BuildType.Release,
             repoUrl = BuildConfig.REPO_URL,
             contactEmail = BuildConfig.CONTACT_EMAIL,
+            siteUrl = BuildConfig.SITE_URL,
         )
     }
 }

@@ -69,6 +69,7 @@ compose.desktop {
             "-Dapp.version=${artifact.version.name}",
             "-Dapp.repoUrl=${providers.gradleProperty("app.repoUrl").get()}",
             "-Dapp.contactEmail=${providers.gradleProperty("app.contactEmail").get()}",
+            "-Dapp.siteUrl=${providers.gradleProperty("app.siteUrl").get()}",
         )
 
         // The installers (pass-docs, Step 124): jpackage builds only those of the OS it runs on - CI builds each on its

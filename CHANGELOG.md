@@ -8,6 +8,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-17
+
+The first stable release of KDBX Vault - a free, open-source password manager compatible with KeePass (KDBX), for
+Android and desktop (Windows, macOS, Linux), with the core
+[1.0.1](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.1). Nothing changed since `1.0.0-rc.4`: it updates
+it in place. `1.0.0-rc.1` (KeyVault) is a different app - remove it and install this one.
+
+### Added
+
+- Create a database, or open an existing one with a password, a key file, or both.
+- Entries and groups: custom fields, attachments, history, recycle bin.
+- Search, password generator and password strength check.
+- Unlock with biometrics on Android; the database locks after a period of inactivity.
+- Local sync without a network: merge a copy of the database in either direction, import another database, save or
+  share a copy.
+- The screen "About": the version of the app and of the core, the license, contacts, the site, the privacy policy,
+  the source code of the app and of the core, the licenses of the libraries.
+- The licenses of the libraries and crates the app ships - a file of every release
+  (`kdbx-vault-<version>-THIRD_PARTY_LICENSES.txt`).
+- A release build writes no texts of exceptions into the system log (logcat): they may hold the path or the name of
+  a database.
+
 ## [1.0.0-rc.4] - 2026-11-17
 
 The first release candidate under the name KDBX Vault, with the core
@@ -40,5 +62,6 @@ it: the app has a new id (`io.github.bigtoestdev.kdbxvault`), so `1.0.0-rc.1` is
 
 Withdrawn: published under the old name KeyVault. Replaced by `1.0.0-rc.4`.
 
-[Unreleased]: https://github.com/BigToEstDev/kdbx-vault/compare/v1.0.0-rc.4...HEAD
+[Unreleased]: https://github.com/BigToEstDev/kdbx-vault/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/BigToEstDev/kdbx-vault/releases/tag/v1.0.0
 [1.0.0-rc.4]: https://github.com/BigToEstDev/kdbx-vault/releases/tag/v1.0.0-rc.4

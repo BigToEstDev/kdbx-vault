@@ -1,5 +1,7 @@
 *.iml
 .gradle
+# Kotlin 2.x: the daemon sessions and the crash logs of the compiler
+.kotlin/
 /local.properties
 /.idea/caches
 /.idea/libraries

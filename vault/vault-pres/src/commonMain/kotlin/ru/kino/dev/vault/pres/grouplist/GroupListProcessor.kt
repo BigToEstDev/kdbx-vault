@@ -488,8 +488,8 @@ class GroupListProcessor(
             }
 
             // The group asked about is gone; reading the tree again shows what is there - or goes to the
-            // root, when the gone one is this group
-            is GroupFailure.GroupNotFound -> {
+            // root, when the gone one is this group. A place a group cannot be moved to is a list gone stale too
+            is GroupFailure.GroupNotFound, is GroupFailure.NotMovable -> {
                 reduce { state.copy(dialog = null) }
                 load()
             }

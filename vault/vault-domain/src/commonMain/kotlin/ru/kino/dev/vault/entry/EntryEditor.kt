@@ -85,6 +85,18 @@ class EntryEditor(
         save(dbKey)
     }
 
+    /**
+     * Moves the entry into [groupId] and saves, nothing else of it changed - "Move to" of the list, without the edit
+     * screen (pass-docs, Step 134). The group it is in already is not a move: nothing is written. The groups offered
+     * are those of the tree, the recycle bin not among them.
+     */
+    suspend fun move(dbKey: String, entryId: EntryId, groupId: GroupId): Unit = guard.exclusiveChange {
+        if (entries.read(dbKey, entryId).groupId == groupId) return@exclusiveChange
+
+        entries.move(dbKey, entryId, groupId)
+        save(dbKey)
+    }
+
     /** Deletes the entry - into the recycle bin, or for good when the database does not use one - and saves. */
     suspend fun delete(dbKey: String, entryId: EntryId): Unit = guard.exclusiveChange {
         entries.delete(dbKey, entryId)

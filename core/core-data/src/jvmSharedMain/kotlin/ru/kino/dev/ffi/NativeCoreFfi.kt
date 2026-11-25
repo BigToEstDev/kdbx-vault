@@ -471,6 +471,17 @@ internal class NativeCoreFfi : NativeCore {
         }
     }
 
+    override suspend fun moveGroup(dbKey: String, groupId: String, parentId: String) {
+        withContext(dispatcher) {
+            call(
+                FfiCommands.MOVE_GROUP,
+                MoveGroupDto.serializer(),
+                MoveGroupDto(dbKey = dbKey, groupUuid = groupId, newParentUuid = parentId),
+                DoneDto.serializer(),
+            )
+        }
+    }
+
     override suspend fun entries(dbKey: String, groupId: String): List<EntrySummaryData> =
         withContext(dispatcher) {
             call(

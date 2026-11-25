@@ -431,6 +431,32 @@ class FakeNativeCore(val journal: MutableList<String> = mutableListOf()) : Nativ
         removeGroups(dbKey, subtree)
     }
 
+    // As the core (Step 134): the group moves with all it holds; the root, the bin and what is in it stay, nothing
+    // goes into the bin or the group's own subtree or where it already is
+    override suspend fun moveGroup(dbKey: String, groupId: String, parentId: String) {
+        step("moveGroup", dbKey)
+        val tree = tree(dbKey)
+        val group = tree.groups[groupId] ?: throw notFound(groupId)
+        val target = tree.groups[parentId] ?: throw notFound(parentId)
+        val oldParentId = group.parentId ?: throw CoreException("DataError", "the root is not moved")
+        val refused = when {
+            inRecycleBin(dbKey, groupId) -> "the bin and what is in it are not moved"
+            inRecycleBin(dbKey, parentId) -> "nothing is moved into the bin"
+            parentId in subtree(tree, groupId) -> "not into its own subtree"
+            oldParentId == parentId -> "already there"
+            else -> null
+        }
+        if (refused != null) throw CoreException("DataError", refused)
+
+        val oldParent = tree.groups.getValue(oldParentId)
+        groupTrees[dbKey] = tree.copy(
+            groups = tree.groups +
+                (oldParent.id to oldParent.copy(groupIds = oldParent.groupIds - groupId)) +
+                (parentId to target.copy(groupIds = target.groupIds + groupId)) +
+                (groupId to group.copy(parentId = parentId)),
+        )
+    }
+
     private fun subtree(tree: GroupTree, groupId: String): List<String> =
         listOf(groupId) + tree.groups.getValue(groupId).groupIds.flatMap { subtree(tree, it) }
 

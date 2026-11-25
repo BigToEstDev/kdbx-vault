@@ -273,6 +273,13 @@ interface NativeCore {
     suspend fun deleteGroup(dbKey: String, groupId: String)
 
     /**
+     * Moves the group with all it holds under [parentId]. The core refuses - kind `DataError`, nothing changed - the
+     * root, the recycle bin or a group in it, a parent in the bin or in the group's own subtree, and the parent the
+     * group is already in (pass-docs, Step 134). In memory only.
+     */
+    suspend fun moveGroup(dbKey: String, groupId: String, parentId: String)
+
+    /**
      * The entries directly inside [groupId], not those of the groups below, in the order the core gives
      * them - by title. A group that is not there has no entries.
      */

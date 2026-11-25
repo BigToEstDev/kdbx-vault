@@ -35,6 +35,10 @@ internal class GroupRepositoryImpl(
         core.deleteGroup(dbKey, groupId.value)
     }.also { changes.changed(dbKey) }
 
+    override suspend fun move(dbKey: String, groupId: GroupId, parentId: GroupId) = groupCall {
+        core.moveGroup(dbKey, groupId.value, parentId.value)
+    }.also { changes.changed(dbKey) }
+
     /** The root named [databaseName]; a blank one - the root group's own, as before. */
     private fun GroupTree.toVaultTree(databaseName: String) = VaultTree(
         rootId = GroupId(rootId),

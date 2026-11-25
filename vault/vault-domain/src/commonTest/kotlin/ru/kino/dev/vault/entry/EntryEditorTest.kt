@@ -220,6 +220,30 @@ class EntryEditorTest {
     }
 
     @Test
+    fun `moving from the list puts the entry into another group, the fields not written, then saves`() = runTest {
+        val id = entries.add("e1", GROUP, filled.fields())
+
+        editor.move(DB, id, OTHER_GROUP)
+
+        assertEquals(listOf("read", "move", "save"), journal)
+        assertEquals(OTHER_GROUP, entries.stored.getValue(id).groupId)
+    }
+
+    @Test
+    fun `moving from the list into the group it is in writes nothing`() = runTest {
+        val id = entries.add("e1", GROUP, filled.fields())
+
+        editor.move(DB, id, GROUP)
+
+        assertEquals(listOf("read"), journal)
+    }
+
+    @Test
+    fun `moving an entry that is gone is not found`() = runTest {
+        expectFailure<EntryFailure.EntryNotFound> { editor.move(DB, EntryId("missing"), GROUP) }
+    }
+
+    @Test
     fun `deleting moves the entry into the recycle bin, then saves`() = runTest {
         val id = entries.add("e1", GROUP, filled.fields())
 

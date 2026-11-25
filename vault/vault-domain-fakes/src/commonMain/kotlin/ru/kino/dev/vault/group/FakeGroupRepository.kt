@@ -80,6 +80,17 @@ class FakeGroupRepository(rootName: String = "Passwords") : GroupRepository {
         subtree.forEach { groups.remove(it) }
     }
 
+    // As the core: the group moves with its subtree; refusals are the editor's, the core's last line is not repeated
+    override suspend fun move(dbKey: String, groupId: GroupId, parentId: GroupId) {
+        call("move")
+        val group = groups[groupId] ?: throw GroupFailure.GroupNotFound()
+        val target = groups[parentId] ?: throw GroupFailure.GroupNotFound()
+        val oldParent = groups.getValue(checkNotNull(group.parentId))
+        groups[oldParent.id] = oldParent.copy(childGroupIds = oldParent.childGroupIds - groupId)
+        groups[parentId] = target.copy(childGroupIds = target.childGroupIds + groupId)
+        groups[groupId] = group.copy(parentId = parentId)
+    }
+
     private fun subtree(groupId: GroupId): List<GroupId> =
         listOf(groupId) + groups.getValue(groupId).childGroupIds.flatMap { subtree(it) }
 

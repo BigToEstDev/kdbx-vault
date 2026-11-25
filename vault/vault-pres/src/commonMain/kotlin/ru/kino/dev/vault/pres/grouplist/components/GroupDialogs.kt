@@ -50,6 +50,9 @@ internal fun GroupDialogs(
             onDismiss = onDismiss,
         )
 
+        // Drawn in the next commit (pass-docs, Step 134, item 4)
+        is GroupDialog.MoveEntry -> Unit
+
         is GroupDialog.Delete -> ConfirmDialog(
             title = stringResource(Res.string.group_delete_title),
             text = stringResource(

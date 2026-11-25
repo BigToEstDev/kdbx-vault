@@ -871,6 +871,105 @@ class GroupListProcessorTest {
         assertEquals(2, entries.calls.count { it == "entries" })
     }
 
+    // Moving an entry from the list (Step 134)
+
+    @Test
+    fun `move to offers every group, the one the entry is in chosen and not yet a move`() = runTest {
+        val (state, _) = perform(groupId = null, { onLoad() }, { onMoveEntry(bank) })
+
+        val dialog = state.dialog as GroupDialog.MoveEntry
+        assertEquals(bank, dialog.entryId)
+        assertEquals(groups.rootId, dialog.from)
+        assertEquals(groups.rootId, dialog.pick.group)
+        assertEquals(listOf(groups.rootId, work, mail, home), dialog.pick.groups.map { it.id })
+        assertFalse(dialog.canMove)
+    }
+
+    @Test
+    fun `a moved entry leaves the list and the file is written`() = runTest {
+        val (state, _) = perform(
+            groupId = null,
+            { onLoad() },
+            { onMoveEntry(bank) },
+            { onDialogGroupChosen(home) },
+            { onDialogConfirm() },
+        )
+
+        assertNull(state.dialog)
+        assertEquals(listOf("Mailbox"), state.entries.map { it.title })
+        assertEquals(home, entries.stored.getValue(bank).groupId)
+        assertEquals(listOf("save"), database.calls)
+    }
+
+    @Test
+    fun `moving with no group chosen says so under the field and moves nothing`() = runTest {
+        val (state, _) = perform(
+            groupId = null,
+            { onLoad() },
+            { onMoveEntry(bank) },
+            { onDialogGroupCleared() },
+            { onDialogConfirm() },
+        )
+
+        val dialog = state.dialog as GroupDialog.MoveEntry
+        assertTrue(dialog.pick.missing)
+        assertNull(dialog.pick.group)
+        assertFalse(dialog.saving)
+        assertEquals(groups.rootId, entries.stored.getValue(bank).groupId)
+        assertTrue(database.calls.isEmpty())
+    }
+
+    @Test
+    fun `a group picked in move to takes the warning away`() = runTest {
+        val (state, _) = perform(
+            groupId = null,
+            { onLoad() },
+            { onMoveEntry(bank) },
+            { onDialogGroupCleared() },
+            { onDialogConfirm() },
+            { onDialogGroupChosen(work) },
+        )
+
+        val dialog = state.dialog as GroupDialog.MoveEntry
+        assertFalse(dialog.pick.missing)
+        assertEquals(work, dialog.pick.group)
+        assertTrue(dialog.canMove)
+    }
+
+    @Test
+    fun `a moved entry that is not written leaves the list anyway, and the snackbar says so`() = runTest {
+        database.saveFailure = CoreException("Io", "disk full")
+
+        val (state, _) = perform(
+            groupId = null,
+            { onLoad() },
+            { onMoveEntry(bank) },
+            { onDialogGroupChosen(home) },
+            { onDialogConfirm() },
+        )
+
+        assertNull(state.dialog)
+        assertEquals(GroupListMessage.NotSaved, state.message)
+        assertFalse(state.entries.any { it.id == bank })
+    }
+
+    @Test
+    fun `a group gone before the move closes the dialog and the list is read again`() = runTest {
+        entries.failures["move"] = EntryFailure.GroupNotFound()
+
+        val (state, _) = perform(
+            groupId = null,
+            { onLoad() },
+            { onMoveEntry(bank) },
+            { onDialogGroupChosen(home) },
+            { onDialogConfirm() },
+        )
+
+        assertNull(state.dialog)
+        assertNull(state.message)
+        assertEquals(2, entries.calls.count { it == "entries" })
+    }
+
     /**
      * Runs [actions] one after another on a new processor, each to its end - [runEach]; without [join] they are
      * only started. The state they end in, and the navigation.

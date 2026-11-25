@@ -5,11 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ru.kino.dev.core.pres.*
 import ru.kino.dev.ui.components.ConfirmDialog
-import ru.kino.dev.ui.components.Dropdown
 import ru.kino.dev.ui.res.pluralStringResource
 import ru.kino.dev.ui.res.stringResource
 import ru.kino.dev.vault.group.GroupId
-import ru.kino.dev.vault.pres.common.option
+import ru.kino.dev.vault.pres.common.GroupField
 import ru.kino.dev.vault.pres.trash.TrashDialog
 
 /**
@@ -20,6 +19,7 @@ import ru.kino.dev.vault.pres.trash.TrashDialog
 internal fun TrashDialogs(
     dialog: TrashDialog?,
     onGroup: (GroupId) -> Unit,
+    onGroupCleared: () -> Unit,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -34,13 +34,13 @@ internal fun TrashDialogs(
             onConfirm = onConfirm,
             onDismiss = onDismiss,
             loading = dialog.saving,
-            confirmEnabled = dialog.group != null,
         ) {
-            Dropdown(
+            GroupField(
                 selected = dialog.group,
-                options = dialog.groups.map { it.option() },
+                groups = dialog.groups,
+                missing = dialog.missing,
                 onSelect = onGroup,
-                label = stringResource(Res.string.entry_field_group),
+                onClear = onGroupCleared,
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !dialog.saving,
             )

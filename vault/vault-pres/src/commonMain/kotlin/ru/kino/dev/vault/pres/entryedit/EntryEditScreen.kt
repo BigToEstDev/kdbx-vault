@@ -31,7 +31,6 @@ import ru.kino.dev.core.preset.PresetField
 import ru.kino.dev.core.preset.StandardPreset
 import ru.kino.dev.pane.koinProcessor
 import ru.kino.dev.ui.components.BackHandler
-import ru.kino.dev.ui.components.Dropdown
 import ru.kino.dev.ui.components.FieldSection
 import ru.kino.dev.ui.components.GeneratePasswordButton
 import ru.kino.dev.ui.components.GradientBackground
@@ -63,8 +62,8 @@ import ru.kino.dev.vault.entry.EntryContent
 import ru.kino.dev.vault.pres.common.EntrySkeleton
 import ru.kino.dev.vault.pres.common.EntryTitleSection
 import ru.kino.dev.vault.pres.common.EntryTopBar
+import ru.kino.dev.vault.pres.common.GroupField
 import ru.kino.dev.vault.pres.common.hides
-import ru.kino.dev.vault.pres.common.option
 import ru.kino.dev.vault.pres.entryedit.components.EntryEditDialogs
 import ru.kino.dev.vault.pres.entryedit.components.FormAttachments
 import ru.kino.dev.vault.pres.entryedit.components.OwnFieldRow
@@ -278,11 +277,12 @@ private fun EntryEditActions.EntryForm(state: EntryEditState, content: EntryCont
         enabled = enabled,
         title = { modifier -> PresetText(field = content.preset.fields.first(), modifier = modifier) },
     ) {
-        Dropdown(
+        GroupField(
             selected = state.group,
-            options = state.groups.map { it.option() },
+            groups = state.groups,
+            missing = state.groupMissing,
             onSelect = { onGroupChosen(it) },
-            label = stringResource(Res.string.entry_field_group),
+            onClear = { onGroupCleared() },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
         )

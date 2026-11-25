@@ -125,6 +125,7 @@ internal fun TrashScreen(
         TrashDialogs(
             dialog = state.dialog,
             onGroup = processor::onGroupChosen,
+            onGroupCleared = processor::onGroupCleared,
             onConfirm = processor::onDialogConfirm,
             onDismiss = processor::onDialogDismiss,
         )

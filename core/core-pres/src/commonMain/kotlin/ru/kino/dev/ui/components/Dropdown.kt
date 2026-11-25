@@ -88,8 +88,9 @@ fun <T> Dropdown(
     }
 }
 
+/** A choice in the list: its title, and its subtitle under it cut at the start - shared with [SearchableDropdown]. */
 @Composable
-private fun OptionText(option: DropdownOption<*>) {
+internal fun OptionText(option: DropdownOption<*>) {
     Column {
         Text(text = option.title, maxLines = 1, overflow = TextOverflow.Ellipsis)
         option.subtitle?.let {
@@ -108,4 +109,4 @@ private fun OptionText(option: DropdownOption<*>) {
  * Around the text of a choice: the side padding of Material 3 (`ExposedDropdownMenuDefaults.ItemContentPadding`),
  * and room above and below, which it leaves at none - two lines of a choice sat close to the divider.
  */
-private val ITEM_PADDING = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
+internal val ITEM_PADDING = PaddingValues(horizontal = 16.dp, vertical = 12.dp)

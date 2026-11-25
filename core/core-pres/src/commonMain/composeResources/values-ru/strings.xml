@@ -231,6 +231,8 @@
     <string name="entry_field_url">URL сервиса</string>
     <string name="entry_field_notes">Заметки</string>
     <string name="entry_field_group">Группа</string>
+    <string name="vault_group_missing">Группа не выбрана</string>
+    <string name="dropdown_nothing_found">Ничего не найдено</string>
     <string name="entry_field_required">Заполните поле</string>
     <string name="entry_field_name">Название поля</string>
     <string name="entry_field_name_taken">В записи уже есть поле с таким названием</string>

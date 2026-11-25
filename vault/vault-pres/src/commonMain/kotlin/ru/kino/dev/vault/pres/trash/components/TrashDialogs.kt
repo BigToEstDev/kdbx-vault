@@ -43,6 +43,7 @@ internal fun TrashDialogs(
                 onClear = onGroupCleared,
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !dialog.saving,
+                inDialog = true,
             )
         }
 

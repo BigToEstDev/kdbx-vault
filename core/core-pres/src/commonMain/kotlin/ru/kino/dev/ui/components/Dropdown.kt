@@ -21,6 +21,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import ru.kino.dev.core.pres.*
+import ru.kino.dev.ui.res.stringResource
 
 /**
  * One choice of a [Dropdown]: [title] is what the field shows once it is chosen; [subtitle], when there is
@@ -86,6 +88,15 @@ fun <T> Dropdown(
             }
         }
     }
+}
+
+/** "Nothing found" in the place of the choices, when what is typed fits none - [SearchableDropdown], [SearchableList]. */
+@Composable
+internal fun NothingFoundText() {
+    Text(
+        text = stringResource(Res.string.dropdown_nothing_found),
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
 }
 
 /** A choice in the list: its title, and its subtitle under it cut at the start - shared with [SearchableDropdown]. */

@@ -8,18 +8,14 @@ import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import ru.kino.dev.core.pres.*
-import ru.kino.dev.ui.res.stringResource
 
 /**
  * A field that takes one of [options], as [Dropdown] does, and lets the person type to find it: the list drops as
@@ -29,6 +25,9 @@ import ru.kino.dev.ui.res.stringResource
  * title of the [selected] one takes the choice away - [onClear]; a choice picked puts its title in the field. Nothing
  * fits - "Nothing found" in the list. [error], when there is one, is shown under the field, the field outlined in the
  * colour of errors: what refuses a save without a choice says so here.
+ *
+ * For a screen. In a dialog the list that drops is a window of its own that the keyboard pushes over the field -
+ * there [SearchableList] keeps the list inside the dialog.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,17 +41,9 @@ fun <T> SearchableDropdown(
     enabled: Boolean = true,
     error: String? = null,
 ) {
-    val selectedTitle = options.firstOrNull { it.value == selected }?.title
-    var text by rememberSaveable { mutableStateOf(selectedTitle.orEmpty()) }
+    val search = rememberOptionSearch(selected, options, onClear)
     var expanded by rememberSaveable { mutableStateOf(false) }
     val open = expanded && enabled
-
-    // A choice made, or the options read after the field: the field shows its title. None - what is typed stays
-    LaunchedEffect(selectedTitle) { selectedTitle?.let { text = it } }
-
-    // With a choice in the field every option is shown - the list is opened to change it, not to search
-    val query = if (selectedTitle != null) "" else text.trim()
-    val shown = if (query.isEmpty()) options else options.filter { it.holds(query) }
 
     ExposedDropdownMenuBox(
         expanded = open,
@@ -60,11 +51,10 @@ fun <T> SearchableDropdown(
         modifier = modifier,
     ) {
         OutlinedTextField(
-            value = text,
+            value = search.text,
             onValueChange = {
-                text = it
+                search.type(it)
                 expanded = true
-                if (selectedTitle != null && it != selectedTitle) onClear()
             },
             enabled = enabled,
             singleLine = true,
@@ -82,6 +72,7 @@ fun <T> SearchableDropdown(
                 .fillMaxWidth(),
         )
         val scroll = rememberScrollState()
+        val shown = search.shown
         ExposedDropdownMenu(
             expanded = open,
             onDismissRequest = { expanded = false },
@@ -91,12 +82,7 @@ fun <T> SearchableDropdown(
         ) {
             if (shown.isEmpty()) {
                 DropdownMenuItem(
-                    text = {
-                        Text(
-                            text = stringResource(Res.string.dropdown_nothing_found),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    },
+                    text = { NothingFoundText() },
                     onClick = {},
                     enabled = false,
                     contentPadding = ITEM_PADDING,
@@ -109,7 +95,7 @@ fun <T> SearchableDropdown(
                     text = { OptionText(option) },
                     onClick = {
                         expanded = false
-                        text = option.title
+                        search.pick(option)
                         onSelect(option.value)
                     },
                     contentPadding = ITEM_PADDING,
@@ -118,7 +104,3 @@ fun <T> SearchableDropdown(
         }
     }
 }
-
-/** The choice holds [query] in its title or its subtitle - the path, for a group - ignoring case. */
-private fun DropdownOption<*>.holds(query: String): Boolean =
-    title.contains(query, ignoreCase = true) || subtitle?.contains(query, ignoreCase = true) == true

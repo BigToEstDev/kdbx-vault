@@ -89,6 +89,16 @@ class VaultTree(
         return found
     }
 
+    /**
+     * Where the group [id] can be moved, in the order of the tree: every visible group but [id] and its own subtree -
+     * the group it is in now among them (pass-docs, Step 134). Empty when [id] is the root or not visible: neither is
+     * moved.
+     */
+    fun moveTargets(id: GroupId): List<VaultGroup> {
+        if (id == rootId || group(id) == null) return emptyList()
+        return (listOf(root) + descendants(rootId)).filterNot { isWithin(it.id, id) }
+    }
+
     /** Whether [id] is [scopeId] or a visible group anywhere below it. */
     fun isWithin(id: GroupId, scopeId: GroupId): Boolean = path(id).any { it.id == scopeId }
 

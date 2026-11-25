@@ -37,7 +37,10 @@ import ru.kino.dev.vault.group.GroupRepository
 import ru.kino.dev.vault.group.VaultTree
 import ru.kino.dev.vault.lock.AutoLock
 import ru.kino.dev.vault.pres.common.ChangeGate
+import ru.kino.dev.vault.pres.common.GroupPick
 import ru.kino.dev.vault.pres.common.SEARCH_DELAY
+import ru.kino.dev.vault.pres.common.groupChoices
+import ru.kino.dev.vault.pres.common.moveChoices
 import ru.kino.dev.vault.pres.common.protectionOrDefault
 import ru.kino.dev.vault.pres.navigation.EntryCreateRoute
 import ru.kino.dev.vault.pres.navigation.EntryEditRoute
@@ -237,11 +240,25 @@ class GroupListProcessor(
         }
     }
 
+    override fun onMoveEntry(id: EntryId) {
+        intent {
+            if (state.dialog != null) return@intent
+            (state.found ?: state.listed).entries.find { it.id == id }?.let { askMoveEntry(it) }
+        }
+    }
+
     override fun onRenameGroup(id: GroupId) {
         intent {
             state.groups.find { it.id == id }?.let { group ->
                 reduce { state.copy(dialog = GroupDialog.Rename(group.id, group.name)) }
             }
+        }
+    }
+
+    override fun onMoveGroup(id: GroupId) {
+        intent {
+            if (state.dialog != null) return@intent
+            state.groups.find { it.id == id }?.let { askMoveGroup(it.id) }
         }
     }
 
@@ -261,6 +278,14 @@ class GroupListProcessor(
 
     override fun onDialogNameChange(name: String) {
         textIntent { reduce { state.copy(dialog = state.dialog?.typed(name)) } }
+    }
+
+    override fun onDialogGroupChosen(id: GroupId) {
+        intent { reduce { state.copy(dialog = state.dialog?.picked { it.chosen(id) }) } }
+    }
+
+    override fun onDialogGroupCleared() {
+        intent { reduce { state.copy(dialog = state.dialog?.picked { it.cleared() }) } }
     }
 
     override fun onDialogConfirm() {
@@ -285,6 +310,36 @@ class GroupListProcessor(
 
     override fun onSaveAgain() {
         intent { if (state.unsavedDamaged) syncRequests.save(dbKey) }
+    }
+
+    /** The groups to move [entry] into, read now - the one it is in chosen (pass-docs, Step 134). */
+    private suspend fun Syntax<GroupListState, Nothing>.askMoveEntry(entry: EntrySummary) {
+        val tree = try {
+            groups.tree(dbKey)
+        } catch (failure: GroupFailure) {
+            failed(failure)
+            return
+        }
+        val pick = GroupPick(tree.groupChoices(), entry.groupId)
+        reduce { state.copy(dialog = GroupDialog.MoveEntry(entry.id, entry.title, entry.groupId, pick)) }
+    }
+
+    /**
+     * The groups to move the group [id] into, read now - every one but itself and those below it, the one it is in
+     * chosen (pass-docs, Step 134). Gone, or the root, since the list was read: reading again shows what is there.
+     */
+    private suspend fun Syntax<GroupListState, Nothing>.askMoveGroup(id: GroupId) {
+        val tree = try {
+            groups.tree(dbKey)
+        } catch (failure: GroupFailure) {
+            failed(failure)
+            return
+        }
+        val group = tree.group(id)
+        val from = group?.parentId
+        if (group == null || from == null) return load()
+        val pick = GroupPick(tree.moveChoices(id), from)
+        reduce { state.copy(dialog = GroupDialog.MoveGroup(id, group.name, from, pick)) }
     }
 
     private suspend fun Syntax<GroupListState, Nothing>.askDelete(id: GroupId, name: String) {
@@ -426,6 +481,8 @@ class GroupListProcessor(
         val dialog = state.dialog ?: return
         if (dialog.saving) return
         val current = state.path.lastOrNull()?.id ?: return
+        // The text in the group field fits no group: said under it, nothing moved (pass-docs, Step 134)
+        if (dialog.lacksGroup) return reduce { state.copy(dialog = dialog.picked { it.refused() }) }
 
         reduce { state.copy(dialog = dialog.underWay()) }
         // Its own change: read again, or gone to the parent, here - not by the change as well
@@ -436,6 +493,8 @@ class GroupListProcessor(
                     is GroupDialog.Rename -> editor.rename(dbKey, dialog.groupId, dialog.name)
                     is GroupDialog.Delete -> editor.delete(dbKey, dialog.groupId)
                     is GroupDialog.DeleteEntry -> entryEditor.delete(dbKey, dialog.entryId)
+                    is GroupDialog.MoveEntry -> entryEditor.move(dbKey, dialog.entryId, checkNotNull(dialog.pick.group))
+                    is GroupDialog.MoveGroup -> editor.move(dbKey, dialog.groupId, checkNotNull(dialog.pick.group))
                 }
                 reduce { state.copy(dialog = null) }
                 // This group is in the recycle bin now: nothing to show here, the screen goes to its parent
@@ -456,14 +515,15 @@ class GroupListProcessor(
                 load()
             }
 
-            // Gone already - deleted or merged away; reading again shows what is there
-            is EntryFailure.EntryNotFound -> {
+            // Gone already - deleted or merged away, the entry or the group it was moved to; reading again shows what
+            // is there
+            is EntryFailure.EntryNotFound, is EntryFailure.GroupNotFound -> {
                 reduce { state.copy(dialog = null) }
                 load()
             }
 
-            // Not what deleting an entry throws
-            is EntryFailure.InvalidFields, is EntryFailure.GroupNotFound, is EntryFailure.Unexpected -> {
+            // Not what deleting or moving an entry throws
+            is EntryFailure.InvalidFields, is EntryFailure.Unexpected -> {
                 log.unexpected(TAG, failure)
                 reduce { state.copy(dialog = null, message = GroupListMessage.Unexpected) }
             }
@@ -488,8 +548,8 @@ class GroupListProcessor(
             }
 
             // The group asked about is gone; reading the tree again shows what is there - or goes to the
-            // root, when the gone one is this group
-            is GroupFailure.GroupNotFound -> {
+            // root, when the gone one is this group. A place a group cannot be moved to is a list gone stale too
+            is GroupFailure.GroupNotFound, is GroupFailure.NotMovable -> {
                 reduce { state.copy(dialog = null) }
                 load()
             }
@@ -522,22 +582,45 @@ private fun GroupDialog.isDeleting(groupId: GroupId?): Boolean = this is GroupDi
 private fun GroupDialog.typed(name: String): GroupDialog = when (this) {
     is GroupDialog.Create -> if (saving) this else copy(name = name, problem = null)
     is GroupDialog.Rename -> if (saving) this else copy(name = name, problem = null)
-    is GroupDialog.Delete, is GroupDialog.DeleteEntry -> this
+    is GroupDialog.Delete, is GroupDialog.DeleteEntry, is GroupDialog.MoveEntry, is GroupDialog.MoveGroup -> this
 }
+
+/** The group field of a "Move to" dialog changed by [change]; other dialogs have none, and one under way takes nothing. */
+private fun GroupDialog.picked(change: (GroupPick) -> GroupPick): GroupDialog = when (this) {
+    is GroupDialog.MoveEntry -> if (saving) this else copy(pick = change(pick))
+    // Another group picked: the name may be free there
+    is GroupDialog.MoveGroup -> if (saving) this else copy(pick = change(pick), nameTaken = false)
+    is GroupDialog.Create, is GroupDialog.Rename, is GroupDialog.Delete, is GroupDialog.DeleteEntry -> this
+}
+
+/** A "Move to" dialog with no group chosen; a dialog without the field never lacks one. */
+private val GroupDialog.lacksGroup: Boolean
+    get() = when (this) {
+        is GroupDialog.MoveEntry -> pick.group == null
+        is GroupDialog.MoveGroup -> pick.group == null
+        is GroupDialog.Create, is GroupDialog.Rename, is GroupDialog.Delete, is GroupDialog.DeleteEntry -> false
+    }
 
 private fun GroupDialog.underWay(): GroupDialog = when (this) {
     is GroupDialog.Create -> copy(saving = true, problem = null)
     is GroupDialog.Rename -> copy(saving = true, problem = null)
     is GroupDialog.Delete -> copy(saving = true)
     is GroupDialog.DeleteEntry -> copy(saving = true)
+    is GroupDialog.MoveEntry -> copy(saving = true)
+    is GroupDialog.MoveGroup -> copy(saving = true, nameTaken = false)
 }
 
-/** Back to typing, with the reason under the field. A delete has no field, so it only stops waiting. */
+/**
+ * Back to typing, with the reason under the field. A delete has no field, so it only stops waiting; a group moved
+ * where its name is taken says so under the group field.
+ */
 private fun GroupDialog.refused(problem: NameProblem): GroupDialog = when (this) {
     is GroupDialog.Create -> copy(saving = false, problem = problem)
     is GroupDialog.Rename -> copy(saving = false, problem = problem)
     is GroupDialog.Delete -> copy(saving = false)
     is GroupDialog.DeleteEntry -> copy(saving = false)
+    is GroupDialog.MoveEntry -> copy(saving = false)
+    is GroupDialog.MoveGroup -> copy(saving = false, nameTaken = problem == NameProblem.Taken)
 }
 
 /** What the screen hears while shown. */

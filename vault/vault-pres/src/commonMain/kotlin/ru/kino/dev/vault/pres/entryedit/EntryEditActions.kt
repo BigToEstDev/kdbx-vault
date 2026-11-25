@@ -29,6 +29,9 @@ interface EntryEditActions {
     /** Another group picked for the entry - it goes there on saving. */
     fun onGroupChosen(id: GroupId)
 
+    /** The text typed in the group field fits no group: none is chosen until one is picked (pass-docs, Step 134). */
+    fun onGroupCleared()
+
     /** The preset button: the choice of presets, read anew. */
     fun onChoosePreset()
 

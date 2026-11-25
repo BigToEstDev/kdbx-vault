@@ -183,6 +183,40 @@ class TrashProcessorTest {
         assertEquals(3, state.shown.size)
     }
 
+    @Test
+    fun `restoring with no group chosen says so under the field and restores nothing`() = runTest {
+        val (state, _) = perform(
+            { onLoad() },
+            { onLongPress(OLD) },
+            { onRestore() },
+            { onGroupCleared() },
+            { onDialogConfirm() },
+        )
+
+        val dialog = state.dialog as TrashDialog.Restore
+        assertTrue(dialog.missing)
+        assertNull(dialog.group)
+        assertFalse(dialog.saving)
+        assertTrue(trash.restored.isEmpty())
+        assertTrue(database.calls.isEmpty())
+    }
+
+    @Test
+    fun `a group picked in restore takes the warning away`() = runTest {
+        val (state, _) = perform(
+            { onLoad() },
+            { onLongPress(OLD) },
+            { onRestore() },
+            { onGroupCleared() },
+            { onDialogConfirm() },
+            { onGroupChosen(home) },
+        )
+
+        val dialog = state.dialog as TrashDialog.Restore
+        assertFalse(dialog.missing)
+        assertEquals(home, dialog.group)
+    }
+
     // Remove and empty
 
     @Test

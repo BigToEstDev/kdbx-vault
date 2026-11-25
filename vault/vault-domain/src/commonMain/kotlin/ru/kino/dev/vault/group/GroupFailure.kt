@@ -25,6 +25,12 @@ sealed class GroupFailure(message: String, cause: Throwable? = null) : Exception
     class NameTaken : GroupFailure("A group with this name is already there")
 
     /**
+     * The group cannot go where it was asked to: into itself or a group of its own subtree (pass-docs, Step 134). The
+     * move dialog does not offer such a place, so this is a stale list rather than a choice: the screen reloads.
+     */
+    class NotMovable : GroupFailure("A group cannot be moved into itself or its own subtree")
+
+    /**
      * The group is gone - a merge removed it, or it was deleted on another screen. The screen reloads the
      * tree rather than show a group that is not there.
      */

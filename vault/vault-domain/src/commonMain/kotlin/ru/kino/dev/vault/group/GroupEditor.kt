@@ -5,7 +5,7 @@ import ru.kino.dev.vault.lock.DatabaseGuard
 import kotlin.coroutines.cancellation.CancellationException
 
 /**
- * Creating, renaming and deleting groups, the way a person does it: one action, one write of the file.
+ * Creating, renaming, moving and deleting groups, the way a person does it: one action, one write of the file.
  *
  * Each change is checked against a fresh tree, made in the core and saved - "Save" in the group dialog or
  * "Delete" in the confirmation is the explicit save (pass-docs, Step 36, decision 3). The checks live here
@@ -53,6 +53,24 @@ class GroupEditor(
         editable(groups.tree(dbKey), groupId)
 
         groups.delete(dbKey, groupId)
+        save(dbKey)
+    }
+
+    /**
+     * Moves the group with all it holds into [parentId] and saves (pass-docs, Step 134). The group it is in already is
+     * not a move: nothing is written. Refused before anything changes: a place that is itself or in its own subtree -
+     * [GroupFailure.NotMovable]; a place where a group is already called the same - [GroupFailure.NameTaken], the rule
+     * of a name among neighbours; a place that is gone or in the recycle bin - [GroupFailure.GroupNotFound].
+     */
+    suspend fun move(dbKey: String, groupId: GroupId, parentId: GroupId): Unit = guard.exclusiveChange {
+        val tree = groups.tree(dbKey)
+        val group = editable(tree, groupId)
+        tree.group(parentId) ?: throw GroupFailure.GroupNotFound()
+        if (parentId == group.parentId) return@exclusiveChange
+        if (tree.isWithin(parentId, groupId)) throw GroupFailure.NotMovable()
+        if (tree.isNameTaken(parentId, group.name)) throw GroupFailure.NameTaken()
+
+        groups.move(dbKey, groupId, parentId)
         save(dbKey)
     }
 

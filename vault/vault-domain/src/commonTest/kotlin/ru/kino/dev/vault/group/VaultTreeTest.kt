@@ -108,6 +108,19 @@ class VaultTreeTest {
     }
 
     @Test
+    fun `a group moves anywhere but itself, its own subtree and the recycle bin`() {
+        assertEquals(listOf(ROOT, HOME), tree.moveTargets(WORK).map { it.id })
+        assertEquals(listOf(ROOT, WORK, HOME), tree.moveTargets(MAIL).map { it.id })
+    }
+
+    @Test
+    fun `the root and a group that is not visible move nowhere`() {
+        assertEquals(emptyList(), tree.moveTargets(ROOT))
+        assertEquals(emptyList(), tree.moveTargets(OLD))
+        assertEquals(emptyList(), tree.moveTargets(GroupId("missing")))
+    }
+
+    @Test
     fun `a damaged file whose groups loop does not hang the tree`() {
         val a = GroupId("a")
         val b = GroupId("b")

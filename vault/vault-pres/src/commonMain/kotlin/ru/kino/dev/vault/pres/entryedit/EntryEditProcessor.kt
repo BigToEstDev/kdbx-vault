@@ -165,7 +165,11 @@ class EntryEditProcessor(
     }
 
     override fun onGroupChosen(id: GroupId) {
-        intent { if (state.editable) reduce { state.copy(group = id) } }
+        intent { if (state.editable) reduce { state.copy(group = id, groupMissing = false) } }
+    }
+
+    override fun onGroupCleared() {
+        intent { if (state.editable) reduce { state.copy(group = null) } }
     }
 
     override fun onChoosePreset() {
@@ -545,9 +549,10 @@ class EntryEditProcessor(
      */
     private suspend fun Syntax<EntryEditState, EntryEditSideEffect>.save(dropHidden: Boolean) {
         val content = state.content ?: return
-        val group = state.group ?: return
         // A file being read goes with the save it is read for: it waits
         if (state.saving || state.addingAttachment) return
+        // The text in the group field fits no group: said under it, nothing saved (pass-docs, Step 134)
+        val group = state.group ?: return reduce { state.copy(groupMissing = true) }
         if (!dropHidden && EntryDraft(content, state.hidden).losesHidden) {
             reduce { state.copy(dialog = EntryEditDialog.HiddenFields(state.hidden.map { it.key })) }
             return

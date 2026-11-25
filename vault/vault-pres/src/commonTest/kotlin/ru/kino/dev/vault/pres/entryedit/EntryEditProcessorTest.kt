@@ -321,6 +321,25 @@ class EntryEditProcessorTest {
     }
 
     @Test
+    fun `saving with no group chosen says so under the field and saves nothing`() = runTest {
+        val (state, events) = editing({ onGroupCleared() }, { onSave() })
+
+        assertTrue(state.groupMissing)
+        assertNull(state.group)
+        assertFalse(state.saving)
+        assertEquals(group, entries.stored.getValue(mail).groupId)
+        assertTrue(events.isEmpty())
+    }
+
+    @Test
+    fun `a group picked takes the warning away`() = runTest {
+        val (state, _) = editing({ onGroupCleared() }, { onSave() }, { onGroupChosen(work) })
+
+        assertFalse(state.groupMissing)
+        assertEquals(work, state.group)
+    }
+
+    @Test
     fun `leaving with another group asks first`() = runTest {
         val (state, events) = editing({ onGroupChosen(work) }, { onBack() })
 

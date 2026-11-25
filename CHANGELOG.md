@@ -8,6 +8,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Move an entry to another group right from the list - "Move to…" in the menu of its card, without editing it.
+- Move a group with everything in it - its groups and entries - "Move to…" in the menu of its card.
+- Search in the choice of a group: type a part of its name or path - in the entry form, on restoring from the recycle
+  bin and on moving.
+
+### Changed
+
+- The core [1.0.2](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.2).
+
+### Fixed
+
+- A group can no longer be moved into a group of its own, into the recycle bin, nor can the root or the recycle bin
+  be moved: such a move broke the tree of the database.
+- The path of a group showed quotes around its separator: `group" › "group`.
+
 ## [1.0.0] - 2026-11-17
 
 The first stable release of KDBX Vault - a free, open-source password manager compatible with KeePass (KDBX), for

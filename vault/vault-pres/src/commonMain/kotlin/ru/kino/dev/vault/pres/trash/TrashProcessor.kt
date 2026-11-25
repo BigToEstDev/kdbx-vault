@@ -117,7 +117,15 @@ class TrashProcessor(
     override fun onGroupChosen(id: GroupId) {
         intent {
             (state.dialog as? TrashDialog.Restore)?.let { dialog ->
-                if (!dialog.saving) reduce { state.copy(dialog = dialog.copy(group = id)) }
+                if (!dialog.saving) reduce { state.copy(dialog = dialog.chosen(id)) }
+            }
+        }
+    }
+
+    override fun onGroupCleared() {
+        intent {
+            (state.dialog as? TrashDialog.Restore)?.let { dialog ->
+                if (!dialog.saving) reduce { state.copy(dialog = dialog.cleared()) }
             }
         }
     }
@@ -187,7 +195,8 @@ class TrashProcessor(
         val picked = state.picked.toList()
         val change: suspend () -> Unit = when (dialog) {
             is TrashDialog.Restore -> {
-                val group = dialog.group ?: return
+                // The text in the group field fits no group: said under it, nothing restored (pass-docs, Step 134)
+                val group = dialog.group ?: return reduce { state.copy(dialog = dialog.refused()) }
                 ({ editor.restore(dbKey, picked, group) })
             }
             is TrashDialog.Remove -> ({ editor.remove(dbKey, picked) })

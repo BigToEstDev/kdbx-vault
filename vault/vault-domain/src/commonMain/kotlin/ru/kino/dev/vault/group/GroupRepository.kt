@@ -24,4 +24,7 @@ interface GroupRepository {
      * not use one - and the groups go for good (pass-docs, Step 69).
      */
     suspend fun delete(dbKey: String, groupId: GroupId)
+
+    /** Moves the group with all it holds - groups and entries at any depth - into [parentId] (pass-docs, Step 134). */
+    suspend fun move(dbKey: String, groupId: GroupId, parentId: GroupId)
 }

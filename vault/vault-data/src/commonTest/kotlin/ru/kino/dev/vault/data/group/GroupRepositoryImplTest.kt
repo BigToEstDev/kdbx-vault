@@ -86,6 +86,25 @@ class GroupRepositoryImplTest {
     }
 
     @Test
+    fun `a moved group goes with its entries into its new parent`() = runTest {
+        val home = repository.create(DB, GroupId(ROOT), "Home")
+
+        repository.move(DB, GroupId(WORK), home)
+
+        val tree = repository.tree(DB)
+        assertEquals(listOf(home), tree.subgroups(GroupId(ROOT)).map { it.id })
+        assertEquals(listOf(GroupId(WORK)), tree.subgroups(home).map { it.id })
+        assertEquals(2, tree.entryCount(home).nested)
+    }
+
+    // The core's last line (Step 134): what the editor lets through by mistake is still refused, as Unexpected
+    @Test
+    fun `a group the core will not move there is unexpected`() = runTest {
+        expectFailure<GroupFailure.Unexpected> { repository.move(DB, GroupId(ROOT), GroupId(WORK)) }
+        expectFailure<GroupFailure.Unexpected> { repository.move(DB, GroupId(WORK), GroupId(ROOT)) }
+    }
+
+    @Test
     fun `a deleted group leaves the tree, and its entries leave the count`() = runTest {
         repository.delete(DB, GroupId(WORK))
 

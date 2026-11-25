@@ -57,7 +57,13 @@ interface GroupListActions {
 
     fun onDeleteEntry(id: EntryId)
 
+    /** "Move to" in the menu of an entry card: the groups to move it into are read (pass-docs, Step 134). */
+    fun onMoveEntry(id: EntryId)
+
     fun onRenameGroup(id: GroupId)
+
+    /** "Move to" in the menu of a group card: the groups to move it into are read (pass-docs, Step 134). */
+    fun onMoveGroup(id: GroupId)
 
     fun onDeleteGroup(id: GroupId)
 
@@ -68,6 +74,12 @@ interface GroupListActions {
     fun onDeleteCurrent()
 
     fun onDialogNameChange(name: String)
+
+    /** A group picked in the field of a "Move to" dialog. */
+    fun onDialogGroupChosen(id: GroupId)
+
+    /** The text typed in the field of a "Move to" dialog fits no group: none is chosen until one is picked. */
+    fun onDialogGroupCleared()
 
     fun onDialogConfirm()
 

@@ -163,6 +163,8 @@ internal fun GroupListScreen(
         GroupDialogs(
             dialog = state.dialog,
             onNameChange = processor::onDialogNameChange,
+            onGroup = processor::onDialogGroupChosen,
+            onGroupCleared = processor::onDialogGroupCleared,
             onConfirm = processor::onDialogConfirm,
             onDismiss = processor::onDialogDismiss,
         )
@@ -219,6 +221,7 @@ private fun GroupListActions.GroupListContent(state: GroupListState, padding: Pa
                     location = locationText(group.location, fromRoot = state.isRoot),
                     onOpen = { onOpenGroup(group.id) },
                     onEdit = { onRenameGroup(group.id) },
+                    onMove = { onMoveGroup(group.id) },
                     onDelete = { onDeleteGroup(group.id) },
                 )
             }
@@ -228,6 +231,7 @@ private fun GroupListActions.GroupListContent(state: GroupListState, padding: Pa
                     location = locationText(entry.location, fromRoot = state.isRoot),
                     onOpen = { onOpenEntry(entry.id) },
                     onEdit = { onEditEntry(entry.id) },
+                    onMove = { onMoveEntry(entry.id) },
                     onDelete = { onDeleteEntry(entry.id) },
                 )
             }

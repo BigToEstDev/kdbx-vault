@@ -6,6 +6,7 @@ import ru.kino.dev.ui.components.CountBadgeIcon
 import ru.kino.dev.ui.components.deleteMenuItem
 import ru.kino.dev.ui.components.editMenuItem
 import ru.kino.dev.ui.components.MenuCard
+import ru.kino.dev.ui.components.moveMenuItem
 import ru.kino.dev.vault.pres.grouplist.GroupItem
 
 /**
@@ -19,6 +20,7 @@ internal fun GroupCard(
     location: String?,
     onOpen: () -> Unit,
     onEdit: () -> Unit,
+    onMove: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -26,7 +28,7 @@ internal fun GroupCard(
         icon = { CountBadgeIcon(count = group.entryCount.shown()) },
         title = group.name,
         subtitle = location,
-        items = listOf(editMenuItem(onEdit), deleteMenuItem(onDelete)),
+        items = listOf(editMenuItem(onEdit), moveMenuItem(onMove), deleteMenuItem(onDelete)),
         onOpen = onOpen,
         modifier = modifier,
     )

@@ -13,8 +13,7 @@ import ru.kino.dev.vault.pres.grouplist.GroupDialog
 import ru.kino.dev.vault.pres.grouplist.NameProblem
 
 /**
- * The dialog over the list: the name of a new or renamed group, "delete?" - a group or an entry, or "move to" - an
- * entry.
+ * The dialog over the list: the name of a new or renamed group, "delete?" or "move to" - a group or an entry.
  */
 @Composable
 internal fun GroupDialogs(
@@ -64,8 +63,13 @@ internal fun GroupDialogs(
             onDismiss = onDismiss,
         )
 
-        // Its dialog comes with the UI of the point (pass-docs, Step 134, item 5)
-        is GroupDialog.MoveGroup -> Unit
+        is GroupDialog.MoveGroup -> GroupMoveDialog(
+            dialog = dialog,
+            onGroup = onGroup,
+            onGroupCleared = onGroupCleared,
+            onConfirm = onConfirm,
+            onDismiss = onDismiss,
+        )
 
         is GroupDialog.Delete -> ConfirmDialog(
             title = stringResource(Res.string.group_delete_title),

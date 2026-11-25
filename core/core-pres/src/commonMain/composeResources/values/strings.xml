@@ -181,6 +181,8 @@
     <string name="entry_delete_text">«%1$s» goes to the recycle bin.</string>
     <string name="entry_move_title">Move the entry</string>
     <string name="entry_move_text">Where «%1$s» goes:</string>
+    <string name="group_move_title">Move the group</string>
+    <string name="group_move_text">«%1$s» goes with everything in it - its groups and entries. Where to:</string>
     <string name="entry_delete_forever_text">«%1$s» is deleted for good. This cannot be undone.</string>
     <string name="entry_preset_standard">Standard</string>
     <string name="entry_preset">Preset</string>

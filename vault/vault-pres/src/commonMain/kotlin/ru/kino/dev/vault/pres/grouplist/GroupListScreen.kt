@@ -221,6 +221,7 @@ private fun GroupListActions.GroupListContent(state: GroupListState, padding: Pa
                     location = locationText(group.location, fromRoot = state.isRoot),
                     onOpen = { onOpenGroup(group.id) },
                     onEdit = { onRenameGroup(group.id) },
+                    onMove = { onMoveGroup(group.id) },
                     onDelete = { onDeleteGroup(group.id) },
                 )
             }

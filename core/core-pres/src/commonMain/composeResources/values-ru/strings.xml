@@ -183,6 +183,8 @@
     <string name="entry_delete_text">«%1$s» попадёт в корзину.</string>
     <string name="entry_move_title">Перенести запись</string>
     <string name="entry_move_text">Куда перенести «%1$s»:</string>
+    <string name="group_move_title">Перенести группу</string>
+    <string name="group_move_text">Группа «%1$s» перенесётся со всем содержимым — вложенными группами и записями. Куда:</string>
     <string name="entry_delete_forever_text">«%1$s» удалится насовсем. Это нельзя отменить.</string>
     <string name="entry_preset_standard">Стандарт</string>
     <string name="entry_preset">Пресет</string>

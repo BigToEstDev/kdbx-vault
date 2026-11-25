@@ -2,6 +2,7 @@ package ru.kino.dev.ui.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.DriveFileMove
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
@@ -26,6 +27,11 @@ data class MenuItem(val text: String, val icon: ImageVector, val onClick: () -> 
 /** "Edit" - a group, an entry, a preset, a field the person named. */
 @Composable
 fun editMenuItem(onClick: () -> Unit) = MenuItem(stringResource(Res.string.action_edit), Icons.Filled.Edit, onClick)
+
+/** "Move to…" - an entry or a group, into another group (pass-docs, Step 134). */
+@Composable
+fun moveMenuItem(onClick: () -> Unit) =
+    MenuItem(stringResource(Res.string.action_move_to), Icons.AutoMirrored.Filled.DriveFileMove, onClick)
 
 /** "Delete" - a group, an entry, a preset, a field. */
 @Composable

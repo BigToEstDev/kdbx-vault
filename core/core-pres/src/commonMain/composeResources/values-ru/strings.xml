@@ -27,6 +27,8 @@
     <string name="action_copy">Копировать</string>
     <string name="action_open_link">Открыть ссылку</string>
     <string name="action_restore">Восстановить</string>
+    <string name="action_move_to">Перенести в…</string>
+    <string name="action_move">Перенести</string>
     <string name="action_select_all">Выбрать все</string>
     <string name="action_pick_another_file">Выбрать другой файл</string>
     <string name="action_pick_another_key_file">Выбрать другой key-файл</string>
@@ -179,6 +181,8 @@
     <string name="entry_created_at">Создано: %1$s</string>
     <string name="entry_delete_title">Удалить запись?</string>
     <string name="entry_delete_text">«%1$s» попадёт в корзину.</string>
+    <string name="entry_move_title">Перенести запись</string>
+    <string name="entry_move_text">Куда перенести «%1$s»:</string>
     <string name="entry_delete_forever_text">«%1$s» удалится насовсем. Это нельзя отменить.</string>
     <string name="entry_preset_standard">Стандарт</string>
     <string name="entry_preset">Пресет</string>

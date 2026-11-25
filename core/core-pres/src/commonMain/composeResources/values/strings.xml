@@ -28,6 +28,8 @@
     <string name="action_copy">Copy</string>
     <string name="action_open_link">Open link</string>
     <string name="action_restore">Restore</string>
+    <string name="action_move_to">Move to…</string>
+    <string name="action_move">Move</string>
     <string name="action_select_all">Select all</string>
     <string name="action_pick_another_file">Choose another file</string>
     <string name="action_pick_another_key_file">Choose another key file</string>
@@ -177,6 +179,8 @@
     <string name="entry_created_at">Created: %1$s</string>
     <string name="entry_delete_title">Delete the entry?</string>
     <string name="entry_delete_text">«%1$s» goes to the recycle bin.</string>
+    <string name="entry_move_title">Move the entry</string>
+    <string name="entry_move_text">Where «%1$s» goes:</string>
     <string name="entry_delete_forever_text">«%1$s» is deleted for good. This cannot be undone.</string>
     <string name="entry_preset_standard">Standard</string>
     <string name="entry_preset">Preset</string>

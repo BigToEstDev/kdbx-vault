@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import ru.kino.dev.core.pres.*
 import ru.kino.dev.ui.components.deleteMenuItem
 import ru.kino.dev.ui.components.editMenuItem
+import ru.kino.dev.ui.components.moveMenuItem
 import ru.kino.dev.ui.res.stringResource
 import ru.kino.dev.ui.theme.LocalAppDisplay
 import ru.kino.dev.ui.components.MenuCard
@@ -26,6 +27,7 @@ internal fun EntryCard(
     location: String?,
     onOpen: () -> Unit,
     onEdit: () -> Unit,
+    onMove: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -35,7 +37,7 @@ internal fun EntryCard(
         title = entry.title.ifEmpty { stringResource(Res.string.entry_untitled) },
         detail = entry.userName.takeIf { LocalAppDisplay.current.userNameInList && it.isNotEmpty() },
         subtitle = location,
-        items = listOf(editMenuItem(onEdit), deleteMenuItem(onDelete)),
+        items = listOf(editMenuItem(onEdit), moveMenuItem(onMove), deleteMenuItem(onDelete)),
         onOpen = onOpen,
         modifier = modifier,
     )

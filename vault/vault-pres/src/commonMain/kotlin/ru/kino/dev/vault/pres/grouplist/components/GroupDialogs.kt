@@ -6,16 +6,22 @@ import ru.kino.dev.ui.components.ConfirmDialog
 import ru.kino.dev.ui.components.TextInputDialog
 import ru.kino.dev.ui.res.pluralStringResource
 import ru.kino.dev.ui.res.stringResource
+import ru.kino.dev.vault.group.GroupId
 import ru.kino.dev.vault.group.GroupNameValidator
 import ru.kino.dev.vault.pres.common.EntryDeleteDialog
 import ru.kino.dev.vault.pres.grouplist.GroupDialog
 import ru.kino.dev.vault.pres.grouplist.NameProblem
 
-/** The dialog over the list: the name of a new or renamed group, or "delete?" - a group or an entry. */
+/**
+ * The dialog over the list: the name of a new or renamed group, "delete?" - a group or an entry, or "move to" - an
+ * entry.
+ */
 @Composable
 internal fun GroupDialogs(
     dialog: GroupDialog?,
     onNameChange: (String) -> Unit,
+    onGroup: (GroupId) -> Unit,
+    onGroupCleared: () -> Unit,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -50,8 +56,13 @@ internal fun GroupDialogs(
             onDismiss = onDismiss,
         )
 
-        // Drawn in the next commit (pass-docs, Step 134, item 4)
-        is GroupDialog.MoveEntry -> Unit
+        is GroupDialog.MoveEntry -> EntryMoveDialog(
+            dialog = dialog,
+            onGroup = onGroup,
+            onGroupCleared = onGroupCleared,
+            onConfirm = onConfirm,
+            onDismiss = onDismiss,
+        )
 
         is GroupDialog.Delete -> ConfirmDialog(
             title = stringResource(Res.string.group_delete_title),

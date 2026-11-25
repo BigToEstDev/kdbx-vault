@@ -182,6 +182,25 @@ sealed interface GroupDialog {
         /** Another group is chosen - or none, which "Move" answers with the warning. */
         val canMove: Boolean = pick.group != from
     }
+
+    /**
+     * "Move to" of a group card: the group into another, with everything in it (pass-docs, Step 134).
+     *
+     * @param from the group it is in - chosen when the dialog opens; "Move" waits for another
+     * @param nameTaken the group chosen holds one of the same name already - said under the field, until another is
+     * picked
+     */
+    data class MoveGroup(
+        val groupId: GroupId,
+        val name: String,
+        val from: GroupId,
+        val pick: GroupPick,
+        val nameTaken: Boolean = false,
+        override val saving: Boolean = false,
+    ) : GroupDialog {
+        /** Another group is chosen - or none, which "Move" answers with the warning. */
+        val canMove: Boolean = pick.group != from
+    }
 }
 
 /** What is wrong with a typed name - shown under the field. */

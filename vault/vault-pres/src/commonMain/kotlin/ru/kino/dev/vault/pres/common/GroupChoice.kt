@@ -23,6 +23,12 @@ data class GroupChoice(val id: GroupId, val path: List<String>) {
  */
 fun VaultTree.groupChoices(): List<GroupChoice> = (listOf(root) + descendants(rootId)).mapNotNull { groupChoice(it.id) }
 
+/**
+ * Where the group [id] can be moved, in the order of the tree - every visible group but [id] and its own subtree,
+ * the group it is in now among them (pass-docs, Step 134); none for the root.
+ */
+fun VaultTree.moveChoices(id: GroupId): List<GroupChoice> = moveTargets(id).mapNotNull { groupChoice(it.id) }
+
 /** The group [id] as a choice; null when it is not visible - in the recycle bin, or gone. */
 fun VaultTree.groupChoice(id: GroupId): GroupChoice? =
     path(id).takeIf { it.isNotEmpty() }?.let { path -> GroupChoice(id, path.map { it.name }) }

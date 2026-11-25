@@ -62,6 +62,9 @@ interface GroupListActions {
 
     fun onRenameGroup(id: GroupId)
 
+    /** "Move to" in the menu of a group card: the groups to move it into are read (pass-docs, Step 134). */
+    fun onMoveGroup(id: GroupId)
+
     fun onDeleteGroup(id: GroupId)
 
     /** "Edit" in the menu of the top bar: the group shown here, not one of its cards. */

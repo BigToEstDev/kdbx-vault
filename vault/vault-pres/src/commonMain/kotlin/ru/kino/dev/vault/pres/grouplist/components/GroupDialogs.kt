@@ -64,6 +64,9 @@ internal fun GroupDialogs(
             onDismiss = onDismiss,
         )
 
+        // Its dialog comes with the UI of the point (pass-docs, Step 134, item 5)
+        is GroupDialog.MoveGroup -> Unit
+
         is GroupDialog.Delete -> ConfirmDialog(
             title = stringResource(Res.string.group_delete_title),
             text = stringResource(

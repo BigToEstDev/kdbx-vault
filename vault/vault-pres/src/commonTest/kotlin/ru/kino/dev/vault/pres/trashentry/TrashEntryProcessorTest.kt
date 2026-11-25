@@ -124,6 +124,18 @@ class TrashEntryProcessorTest {
     }
 
     @Test
+    fun `restoring with no group chosen says so under the field and restores nothing`() = runTest {
+        val (state, events) = perform({ onLoad() }, { onRestore() }, { onGroupCleared() }, { onDialogConfirm() })
+
+        val dialog = state.dialog as TrashDialog.Restore
+        assertTrue(dialog.missing)
+        assertNull(dialog.group)
+        assertTrue(trash.restored.isEmpty())
+        assertTrue(database.calls.isEmpty())
+        assertTrue(events.isEmpty())
+    }
+
+    @Test
     fun `removed for good after asking, back to the bin`() = runTest {
         val (state, events) = perform({ onLoad() }, { onRemove() }, { onDialogConfirm() })
 

@@ -20,6 +20,9 @@ interface TrashEntryActions : EntryReadFieldsActions {
     /** A group chosen in "restore". */
     fun onGroupChosen(id: GroupId)
 
+    /** The text typed in the group field of "restore" fits no group: none is chosen until one is picked (Step 134). */
+    fun onGroupCleared()
+
     /** The bin in the top bar: asked first - for good. */
     fun onRemove()
 

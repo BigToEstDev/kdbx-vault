@@ -33,6 +33,9 @@ interface TrashActions {
     /** A group chosen in "restore". */
     fun onGroupChosen(id: GroupId)
 
+    /** The text typed in the group field of "restore" fits no group: none is chosen until one is picked (Step 134). */
+    fun onGroupCleared()
+
     /** "Delete" under the choice: asked first - for good. */
     fun onRemove()
 

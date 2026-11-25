@@ -22,7 +22,9 @@ import ru.kino.dev.vault.pres.common.GroupChoice
  * @param initial what the form opened with - the blank or the entry as read: "back" asks before leaving
  * anything else
  * @param groups every group the entry can go into, in the order of the tree; empty until the tree is read
- * @param group the group chosen - where a new entry goes, where an edited one is moved on saving
+ * @param group the group chosen - where a new entry goes, where an edited one is moved on saving; null when the text
+ *   typed in its field fits none
+ * @param groupMissing a save was asked with no group chosen - "No group chosen" under the field, until one is picked
  * @param initialGroup the group the form opened with: another one is a change, as other fields are
  * @param hidden filled fields of a preset chosen before that the preset now chosen lacks (see [EntryDraft]);
  * memory only, as the whole state - never the saved state of the screen
@@ -48,6 +50,7 @@ data class EntryEditState(
     val initial: EntryContent? = null,
     val groups: List<GroupChoice> = emptyList(),
     val group: GroupId? = null,
+    val groupMissing: Boolean = false,
     val initialGroup: GroupId? = null,
     val hidden: List<EntryField> = emptyList(),
     val presetsBeforeCreate: Set<PresetId>? = null,

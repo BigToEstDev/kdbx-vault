@@ -53,13 +53,25 @@ sealed interface TrashDialog {
      * Where the picked entries go: one group for all of them.
      *
      * @param groups the groups to choose from, in the order of the tree; the bin is not among them
-     * @param group the one chosen; null - none yet, "restore" waits
+     * @param group the one chosen; null - none, the text typed in its field fits no group
+     * @param missing "restore" was tapped with no group chosen - "No group chosen" under the field, until one is picked
      */
     data class Restore(
         val groups: List<GroupChoice>,
         val group: GroupId?,
+        val missing: Boolean = false,
         override val saving: Boolean = false,
-    ) : TrashDialog
+    ) : TrashDialog {
+
+        /** [id] picked: the group of the restore, the warning gone. */
+        fun chosen(id: GroupId): Restore = copy(group = id, missing = false)
+
+        /** The text typed fits no group: none chosen. */
+        fun cleared(): Restore = copy(group = null)
+
+        /** "Restore" tapped with none chosen: "No group chosen" under the field. */
+        fun refused(): Restore = copy(missing = true)
+    }
 
     /** "Delete for good?" - the [count] entries picked. */
     data class Remove(val count: Int, override val saving: Boolean = false) : TrashDialog

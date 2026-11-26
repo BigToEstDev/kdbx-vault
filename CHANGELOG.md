@@ -19,6 +19,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - The core [1.0.2](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.2).
 
+### Security
+
+- Android: the data of the app is no longer included in cloud backups. Moving to a new phone (Android 12+) takes
+  only the settings - not the last database nor the password for biometric unlock.
+
 ### Fixed
 
 - A group can no longer be moved into a group of its own, into the recycle bin, nor can the root or the recycle bin

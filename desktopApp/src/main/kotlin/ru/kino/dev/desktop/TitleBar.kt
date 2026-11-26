@@ -8,8 +8,8 @@ import com.sun.jna.win32.StdCallLibrary
 import java.awt.Window
 
 /**
- * The title bar of the window in the theme of the system (pass-docs, Step 93) - dark with a dark system, no colors
- * of the app. Windows draws it light whatever the theme unless told; macOS follows the system once
+ * The title bar of the window dark or light (pass-docs, Step 93) - no colors of the app. Windows draws it light
+ * whatever the theme unless told - told the theme of the app (Step 135); macOS follows the system once
  * [followSystemOnMac] is set; on Linux it is the window manager's, nothing to do.
  */
 internal object TitleBar {

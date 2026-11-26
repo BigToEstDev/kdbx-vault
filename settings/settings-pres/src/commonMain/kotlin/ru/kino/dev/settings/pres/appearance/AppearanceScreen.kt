@@ -89,7 +89,7 @@ internal fun AppearanceScreen(
                             title = stringResource(Res.string.settings_theme_mode),
                             options = ThemeMode.entries,
                             // Until read nothing is chosen for real: the choice is disabled meanwhile
-                            selected = state.themeMode ?: ThemeMode.System,
+                            selected = state.themeMode ?: ThemeMode.DEFAULT,
                             label = { stringResource(it.label) },
                             onSelect = processor::onSelectTheme,
                             enabled = state.themeMode != null,

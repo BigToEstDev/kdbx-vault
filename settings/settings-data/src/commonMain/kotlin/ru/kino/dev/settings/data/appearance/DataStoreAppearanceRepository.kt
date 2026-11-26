@@ -31,7 +31,7 @@ internal class DataStoreAppearanceRepository(
         .catch { if (it is IOException) emit(emptyPreferences()) else throw it }
 
     override val themeMode: Flow<ThemeMode> = preferences
-        .map { THEME_MODE.read(it[THEME_MODE_KEY]) ?: ThemeMode.System }
+        .map { THEME_MODE.read(it[THEME_MODE_KEY]) ?: ThemeMode.DEFAULT }
         .distinctUntilChanged()
 
     override val language: Flow<AppLanguage> = preferences

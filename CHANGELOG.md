@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Move a group with everything in it - its groups and entries - "Move to…" in the menu of its card.
 - Search in the choice of a group: type a part of its name or path - in the entry form, on restoring from the recycle
   bin and on moving.
+- The dark theme by default, not the one of the system - for everyone who has not chosen a theme, those who used the
+  app before too; a theme chosen stays. On desktop (Windows) the title bar of the window follows the theme of the app.
 
 ### Changed
 

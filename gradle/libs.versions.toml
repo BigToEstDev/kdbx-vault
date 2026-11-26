@@ -7,6 +7,9 @@ biometric = "1.1.0"
 gradle = "9.2.1"
 junit = "4.13.2"
 robolectric = "4.17"
+# The image of Android the host tests run on (sdk=34 of robolectric.properties) - its "-iN" goes with the version of
+# Robolectric: a new Robolectric - the version it asks for (pass-docs, Step 136)
+robolectricAndroidAll = "14-robolectric-10818077-i7"
 kotlinGradlePlugin = "2.3.20"
 activityCompose = "1.13.0"
 kotlin = "2.3.20"
@@ -40,6 +43,7 @@ android-gradle = { module = "com.android.tools.build:gradle", version.ref = "gra
 android-gradle-api = { module = "com.android.tools.build:gradle-api", version.ref = "gradle" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+robolectric-android-all = { group = "org.robolectric", name = "android-all-instrumented", version.ref = "robolectricAndroidAll" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "composeUi" }

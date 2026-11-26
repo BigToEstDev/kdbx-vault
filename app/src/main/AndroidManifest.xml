@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- No cloud backup: nothing of the app leaves the device. Moving to a new phone (Android 12+) takes only the
+         settings - data_extraction_rules; before Android 12 - nothing, backup_rules (pass-docs, Step 131) -->
     <application
         android:name=".KdbxVaultApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"

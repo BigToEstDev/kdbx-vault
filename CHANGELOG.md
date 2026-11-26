@@ -14,10 +14,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Move a group with everything in it - its groups and entries - "Move to…" in the menu of its card.
 - Search in the choice of a group: type a part of its name or path - in the entry form, on restoring from the recycle
   bin and on moving.
+- The dark theme by default, not the one of the system - for everyone who has not chosen a theme, those who used the
+  app before too; a theme chosen stays. On desktop (Windows) the title bar of the window follows the theme of the app.
 
 ### Changed
 
 - The core [1.0.2](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.2).
+- About: "Licenses of the libraries" shows a download icon - it downloads a file, not opens a page.
 
 ### Security
 
@@ -26,6 +29,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- Saving an entry hides the password and the protected fields shown in clear - they no longer stay on the screen,
+  colored, while the entry is written.
 - A group can no longer be moved into a group of its own, into the recycle bin, nor can the root or the recycle bin
   be moved: such a move broke the tree of the database.
 - The path of a group showed quotes around its separator: `group" › "group`.

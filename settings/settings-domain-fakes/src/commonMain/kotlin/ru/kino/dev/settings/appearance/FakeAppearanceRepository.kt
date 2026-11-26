@@ -8,7 +8,7 @@ import java.io.IOException
  * How the app looks, in memory: what was saved, in order. [failSave] - every save throws, as a disk that is full.
  */
 class FakeAppearanceRepository(
-    initial: ThemeMode = ThemeMode.System,
+    initial: ThemeMode = ThemeMode.DEFAULT,
     initialLanguage: AppLanguage = AppLanguage.System,
     private val failSave: Boolean = false,
     initialUserNameInList: Boolean = false,

@@ -16,6 +16,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Gavel
@@ -235,7 +236,8 @@ internal fun AboutActions.SourceCodeCard(state: AboutState) {
         AboutRow(
             icon = Icons.Filled.Gavel,
             title = stringResource(Res.string.about_licenses),
-            action = Icons.AutoMirrored.Filled.OpenInNew,
+            // A file is downloaded, not a page opened
+            action = Icons.Filled.Download,
             onClick = ::onOpenLicenses,
         )
     }

@@ -27,19 +27,19 @@ class DataStoreAppearanceRepositoryTest {
     fun deleteFolder() = folder.delete()
 
     @Test
-    fun `nothing chosen yet reads as the system mode`() = runTest {
+    fun `nothing chosen yet reads as dark, not as the system`() = runTest {
         val repository = DataStoreAppearanceRepository(store(newFile()))
 
-        assertEquals(ThemeMode.System, repository.themeMode.first())
+        assertEquals(ThemeMode.Dark, repository.themeMode.first())
     }
 
     @Test
     fun `a saved mode is what is read next`() = runTest {
         val repository = DataStoreAppearanceRepository(store(newFile()))
 
-        repository.save(ThemeMode.Dark)
+        repository.save(ThemeMode.Light)
 
-        assertEquals(ThemeMode.Dark, repository.themeMode.first())
+        assertEquals(ThemeMode.Light, repository.themeMode.first())
     }
 
     @Test
@@ -66,11 +66,11 @@ class DataStoreAppearanceRepositoryTest {
     }
 
     @Test
-    fun `a code this version does not know reads as the system mode`() = runTest {
+    fun `a code this version does not know reads as the default - dark`() = runTest {
         val store = store(newFile())
         store.edit { it[DataStoreAppearanceRepository.THEME_MODE_KEY] = "sepia" }
 
-        assertEquals(ThemeMode.System, DataStoreAppearanceRepository(store).themeMode.first())
+        assertEquals(ThemeMode.Dark, DataStoreAppearanceRepository(store).themeMode.first())
     }
 
     @Test

@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,8 +77,10 @@ fun main() {
             },
         ) {
             LaunchedEffect(window) { window.minimumSize = WindowSizes.minAwt }
+            // The title bar in the theme of the app, the system's until the app has read it (pass-docs, Step 135)
             val darkSystem = isSystemInDarkTheme()
-            LaunchedEffect(window, darkSystem) { TitleBar.applyDark(window, darkSystem) }
+            var darkTheme by remember { mutableStateOf(darkSystem) }
+            LaunchedEffect(window, darkTheme) { TitleBar.applyDark(window, darkTheme) }
 
             // Every press, whatever takes it, seen before it does and left to it: a press counts once, as it starts
             Box(
@@ -92,7 +97,7 @@ fun main() {
             ) {
                 // The pickers of files open over this window
                 CompositionLocalProvider(LocalPickerParent provides window) {
-                    App()
+                    App(onDarkTheme = { darkTheme = it })
                 }
             }
         }

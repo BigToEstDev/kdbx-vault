@@ -558,7 +558,16 @@ class EntryEditProcessor(
             return
         }
 
-        reduce { state.copy(saving = true, problems = emptyList()) }
+        // What was shown in clear is hidden for the save and stays so if it fails (pass-docs, Step 135, item 2)
+        reduce {
+            state.copy(
+                saving = true,
+                problems = emptyList(),
+                passwordVisible = false,
+                shownKeys = emptySet(),
+                shownOwn = emptySet(),
+            )
+        }
         try {
             if (entryId == null) {
                 val created = editor.create(dbKey, group, content, state.attachments.added())

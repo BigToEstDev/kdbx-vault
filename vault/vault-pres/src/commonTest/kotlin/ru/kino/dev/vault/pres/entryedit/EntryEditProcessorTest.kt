@@ -633,6 +633,25 @@ class EntryEditProcessorTest {
     }
 
     @Test
+    fun `saving hides what was shown, and a failed save leaves it hidden`() = runTest {
+        settings.entries = settings.entries.copy(protection = FieldProtection.DEFAULT.copy(url = true))
+        entries.failures["update"] = EntryFailure.Unexpected(IllegalStateException("broken"))
+
+        val (state, _) = editing(
+            { onTogglePassword() },
+            { onToggleOwn(0) },
+            { onToggleKey(StandardPreset.URL) },
+            { onValueChange(StandardPreset.USER_NAME, "you") },
+            { onSave() },
+        )
+
+        assertFalse(state.saving)
+        assertFalse(state.passwordVisible)
+        assertTrue(state.shownOwn.isEmpty())
+        assertTrue(state.shownKeys.isEmpty())
+    }
+
+    @Test
     fun `closing the choice of presets changes nothing`() = runTest {
         val (state, _) = editing({ onChoosePreset() }, { onDialogDismiss() })
 

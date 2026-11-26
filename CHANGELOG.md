@@ -27,6 +27,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- Saving an entry hides the password and the protected fields shown in clear - they no longer stay on the screen,
+  colored, while the entry is written.
 - A group can no longer be moved into a group of its own, into the recycle bin, nor can the root or the recycle bin
   be moved: such a move broke the tree of the database.
 - The path of a group showed quotes around its separator: `group" › "group`.

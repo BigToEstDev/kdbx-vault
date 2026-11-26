@@ -1,5 +1,7 @@
 plugins {
     id("kmp-lib")
+    // The image of Android of the Robolectric tests - from Gradle, not downloaded by the tests
+    id("robolectric-jars")
     // @Serializable of the ffi envelope and its dto-s needs the compiler plugin here, not only in domain
     id("org.jetbrains.kotlin.plugin.serialization")
 }

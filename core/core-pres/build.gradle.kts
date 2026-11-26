@@ -1,5 +1,7 @@
 plugins {
     id("kmp-compose-lib")
+    // The image of Android of the Robolectric tests - from Gradle, not downloaded by the tests
+    id("robolectric-jars")
 }
 
 // The strings of the whole app live here, as R.string of core-pres did: one public Res for every module, in the

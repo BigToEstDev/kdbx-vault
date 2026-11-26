@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-   Sample data extraction rules file; uncomment and customize as necessary.
-   See https://developer.android.com/about/versions/12/backup-restore#xml-changes
-   for details.
+   What leaves the device on Android 12+ (pass-docs, Step 131, app-decisions "Android: резервное копирование").
+   Cloud backup - nothing: `allowBackup="false"` in the manifest turns it off, the excludes keep it so if that is ever
+   turned back on (a section without an include means "everything").
+   Moving to a new phone (device to device, no cloud) - only the settings. Not the remembered database
+   (`current_database`: the SAF grants do not move) nor the biometric password (`biometric_password`: the Keystore
+   key does not move).
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        <exclude domain="root" path="." />
+        <exclude domain="file" path="." />
+        <exclude domain="database" path="." />
+        <exclude domain="sharedpref" path="." />
+        <exclude domain="external" path="." />
+        <exclude domain="device_root" path="." />
+        <exclude domain="device_file" path="." />
+        <exclude domain="device_database" path="." />
+        <exclude domain="device_sharedpref" path="." />
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <include domain="file" path="datastore/app_settings.preferences_pb" />
+        <include domain="file" path="datastore/phone_settings.preferences_pb" />
+        <include domain="file" path="datastore/presets.preferences_pb" />
+        <include domain="file" path="datastore/vault_filter.preferences_pb" />
     </device-transfer>
-    -->
 </data-extraction-rules>

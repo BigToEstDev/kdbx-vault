@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-26
+
+Updates `1.0.0` in place, with the core [1.0.2](https://github.com/BigToEstDev/kdbx-core/releases/tag/v1.0.2).
+
 ### Added
 
 - Move an entry to another group right from the list - "Move to…" in the menu of its card, without editing it.
@@ -89,6 +93,7 @@ it: the app has a new id (`io.github.bigtoestdev.kdbxvault`), so `1.0.0-rc.1` is
 
 Withdrawn: published under the old name KeyVault. Replaced by `1.0.0-rc.4`.
 
-[Unreleased]: https://github.com/BigToEstDev/kdbx-vault/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/BigToEstDev/kdbx-vault/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/BigToEstDev/kdbx-vault/releases/tag/v1.0.1
 [1.0.0]: https://github.com/BigToEstDev/kdbx-vault/releases/tag/v1.0.0
 [1.0.0-rc.4]: https://github.com/BigToEstDev/kdbx-vault/releases/tag/v1.0.0-rc.4
